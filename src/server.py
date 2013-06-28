@@ -50,10 +50,12 @@ observer = Observable()
          
 def main():
     settings = {
-      "static_path": os.path.dirname(__file__),
+      "static_path": '/Users/andrew/git/kiosk/src/',
       "cookie_secret": "digital_display_cookie"
     }
-    
+
+    print(settings)
+
     http_server = tornado.httpserver.HTTPServer(tornado.web.Application([
         (r"/activate", ActivateOfferHandler),
         (r"/", MainHandler),
