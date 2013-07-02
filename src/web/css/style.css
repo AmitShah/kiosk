@@ -79,7 +79,7 @@ body{ font:16px/24px Helvetica, Helvetica Neue, Arial, sans-serif; }
     ALL: Orange Theme
    =================== */
 
-#header-container{ border-bottom: 20px solid #e44d26; }
+#header-container{ border-bottom: 20px solid #e44d26; position: absolute; width: 100%; z-index: 1000; }
 #footer-container{ border-top:    20px solid #e44d26; }
 #main aside      { border-top:    20px solid #e44d26; }
 
@@ -125,6 +125,7 @@ nav a:hover{
 
 #main{
 	padding:30px 0;
+	position: absolute;
 }
 
 #main article h1{
@@ -259,4 +260,55 @@ nav a:hover{
   @page { margin: 0.5cm; }
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3 { page-break-after: avoid; }
+}
+
+section {
+    padding: 5px;
+    margin: 5px 0 5px 0;
+    border-spacing: 200px;
+    border-style: dashed;
+    border-color: #777;
+    transition-duration: 1s;
+    z-index: 1;
+}
+
+section.active {
+	z-index: 1000;
+	background-color: #eee;
+	border:1px solid gray;
+}
+
+.coupon-image {
+	width: 100%;
+	height: auto;
+	transition-duration: 1s;
+}
+
+.inactive {
+	-webkit-filter: blur(5px) brightness(70%); 
+	filter: url(#blur-effect-1);
+}
+
+.coupon-inner {
+	transition-duration: 1s;
+}
+
+.check-inactive {
+	display:none;
+	z-index: 0;
+}
+
+.check-active {
+	text-align: center;
+	vertical-align: middle;
+	display:inline;
+	z-index: 1000;
+}
+
+.my-coupons {
+	position: absolute;
+	top: -10000px;
+	background-color: #ddd;
+	width: 100%;
+	border: 1px solid #999;
 }
