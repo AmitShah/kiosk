@@ -16,7 +16,9 @@
 	<link rel="stylesheet" href="{{ static_url("web/css/style.css")}}">
 
 	<script src="{{ static_url("web/js/libs/modernizr-2.0.6.min.js")}}"></script>
-	<script src="{{ static_url("web/js/libs/jquery-mobile.1.3.1.min.js")}}"></script>
+	<script src="{{ static_url("web/js/libs/jquery-1.10.1.min.js")}}"></script>
+	
+	<script src="{{ static_url("web/js/main.js")}}"></script>
 </head>
 <body>
 
@@ -25,12 +27,19 @@
 			<h1 id="title">Shoppers Network</h1>
 			<nav>
 				<ul>
-					<li><a href="#">My Coupons</a></li>
+					<li id="my-coupon-btn"><a href="#">My Coupons</a></li>
 				</ul>
 			</nav>
 		</header>
 	</div>
 	<div id="main-container">
+		<div id="my-coupons" class="my-coupons">
+			Test<br />
+			Test<br />
+			Test<br />
+			Test<br />
+			Test<br />
+		</div>
 		<div id="main" class="wrapper clearfix">
 			<div id="new_data"></div>
 			<article>
@@ -66,14 +75,16 @@
 		</div> <!-- #main -->
 	</div> <!-- #main-container -->
 
+<!--
 	<div id="footer-container">
 		<footer class="wrapper">
 			<h3>footer</h3>
 		</footer>
 	</div>
-
+-->
 </body>
 <script type="text/javascript">
+/*
 	var ws = new WebSocket("ws://localhost:8080/activate");
 	ws.onopen = function() {
 	   ws.send("Hello, world");
@@ -88,7 +99,7 @@
 	{
 	  // websocket is closed.
 	  alert("Connection is closed...");
-	};
+	};*/
 
 </script>
 </html>
