@@ -12,31 +12,29 @@
 	<meta name="author" content="">
 
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-
 	<link rel="stylesheet" href="{{ static_url("web/css/style.css")}}">
-
+	
 	
 	<script src="{{ static_url("web/js/libs/modernizr-2.0.6.min.js")}}"></script>
 	<script src="{{ static_url("web/js/libs/jquery-1.10.2.min.js")}}"></script>
-	
-	<script src="{{ static_url("web/js/libs/jquery-mobile.1.3.1.min.js")}}"></script>
+	<script src="{{ static_url("web/js/libs/handlebars.js")}}"></script>
 	
 </head>
 <body>
 
 	<div id="header-container">
 		<header class="wrapper clearfix">
-			<h1 id="title">Shoppers Network</h1>
+			<h1 id="title">Coupon Network</h1>
 			<nav>
 				<ul>
-					<li><a href="#">My Coupons</a></li>
+					<li><a id="myCoupons" href="#">My Coupons (<span id="couponCount"></span>)</a></li>
 				</ul>
 			</nav>
 		</header>
+		
 	</div>
 	<div id="main-container">
 		<div id="main" class="wrapper clearfix">
-			<div id="new_data"></div>
 			<article id="article">
 				<header>
 					<h1 id="status">Header</h1>
@@ -84,14 +82,17 @@
 	}else{
 		//output coupons will not be saved :( 
 	}
-	
+		
 	
 	var runApp = function(){
 		//creating streaming connection for future use case
+				
 		try{
+		
 			var ws = new WebSocket("ws://localhost:8080/activate");
 			ws.onopen = function() {
-			  $('#status').html('connection established...'); 			   
+			  $('#status').html('connection established...'); 	
+			  		   
 			};
 			ws.onmessage = function (evt)
 			{
@@ -110,35 +111,84 @@
 		$.ajax({
 		  url: '/coupon',
 		  dataType:'json',
+		  cache:'false',
 		  //data: data,
 		  success: function(data){
+		  	  
+		  	  $('#couponCount').html(localStorage.length);
+		  	  
 		      var d = $('#article');
+		      d.find('section').remove();
 		      for(var key in data){
-		      	
-		      	var str = '<img src="data:image/jpeg;base64,'+data[key]+'" />';
+		      	var str = '';
+		      	if(localStorage.getItem(key)===null){
+			      	str = '<section id="'+ key+'">'+
+					'	<div class="check-inactive" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>'+
+					'	<div class="coupon-inner">'+
+					//'		<img src="data:image/jpeg;base64,'+data[key]+'" />'+				
+					'	</div>'+
+					'</section>';
+				}else{
+				  	str = '<section id="'+key+'" class="active">'+
+					'<div class="check-active" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>'+
+					'	<div class="coupon-inner inactive">'+
+					//'		<img class="coupon-image" src="data:image/jpeg;base64,'+data[key]+'"></img>'+
+					'	</div>'+
+					'</section>';
+				}
 		      	d.append(str);
+		      	var i = d.find('#'+key + ' .coupon-inner');
+		      	if(localStorage.getItem(key) === null){
+			      	i.append('<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+i.width()+'" />');
+				}else{
+				  	i.append('<img class="base64-coupon coupon-image" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+i.width()+'" />');
+				}      	
 		      }
 		  },
 		  error: function(e){
-		  	$('#status').html('error retreiving coupons...');
+		  	$('#status').html('waiting for kiosk');
 		  }
 		  
 		});
+		
 	}
 	
 	var retry = function(){
 		$('#status').html('waiting for connection...');
 		setTimeout(runApp, 1000);
 	}
-	runApp();
 	
+		
+	//setup global handlers
+	$('#myCoupons').click(function(e){
+			e.preventDefault();
+			localStorage.clear();
+			alert('reset offers');
+			$('#couponCount').html(localStorage.length);
+		  	  
+	});
+	var handler = $('#article').delegate('section', 'click', function(e){
+			//todo:update local storage
+			elem = $(this);		
+				
+			var srcImage = elem.find('.base64-coupon')[0].src;
+			localStorage.setItem(elem[0].id,elem[0].src);
+			$('#couponCount').html(localStorage.length);
+			var str = '<div class="check-active" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>'+
+					'	<div class="coupon-inner inactive">'+
+					//'		<img class="coupon-image" src="data:image/jpeg;base64,'+data[key]+'"></img>'+
+					'	</div>';	
+			elem.addClass('active');
+			elem.html(str);
+			var i = elem.find('.coupon-inner');
+			i.append('<img class="coupon-image" src="'+srcImage+'" style="width:'+i.width()+'" />');
+			
+	});
+	
+	$(document).ready(function(){
+		runApp();
+	});
 </script>
-  <section>
-	<div class="check-inactive" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>
-	  <div class="coupon-inner">
-	    <img class="coupon-image" src="{{ static_url("web/img/axe.jpg")}}"></img>
-	  </div>
-  </section>
-<script>
+
 
 </html>
