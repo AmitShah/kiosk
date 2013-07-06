@@ -6,6 +6,7 @@ Created on Jun 28, 2013
 
 import tornado
 from tornado import web,websocket,httpserver
+from tornado.escape import json_encode,json_decode
 
 import os,Queue,datetime
 
@@ -41,11 +42,37 @@ class ActivateOfferHandler(websocket.WebSocketHandler):
     def on_close(self):
         observer.unsubscribe(self.value)
         print 'close connection'
-  
+ 
+import base64, hashlib
+
+class CouponCache(object):
+    coupons = {}
+    encoded = ''
+    def  __init__(self, str_dir):    
+        self.dir = os.path.abspath(str_dir)
+        self.update()
+        
+    def get_encoded(self):
+        return self.encoded
+    
+    def update(self):
+        files = [os.path.join(self.dir,f) for f in os.listdir(self.dir) if os.path.isfile(os.path.join(self.dir,f))]
+        for f in files:
+            with open(f, "rb") as image_file:
+                self.coupons[int(hashlib.md5(f).hexdigest(), 16)] = (base64.b64encode(image_file.read()))
+             
+        self.encoded = json_encode(self.coupons)
+        
+class CouponHandler(web.RequestHandler): 
+    def get(self):
+        self.write(coupons.get_encoded())
+    def post(self,coupon_id):
+        self.write(json_encode('ok'))
+
 #shared memory object
  
 observer = Observable()
-
+coupons = CouponCache('coupon')
 #=====================
          
 def main():
@@ -57,7 +84,7 @@ def main():
     http_server = tornado.httpserver.HTTPServer(tornado.web.Application([
         (r"/activate", ActivateOfferHandler),
         (r"/", MainHandler),
-        
+        (r"/coupon", CouponHandler),
         (r"/(apple-touch-icon\.png)", tornado.web.StaticFileHandler,
      dict(path=settings['static_path'])),], **settings))
     sockets = tornado.netutil.bind_sockets(8080)
@@ -66,7 +93,8 @@ def main():
     http_server.add_sockets(sockets)
     tornado.ioloop.IOLoop.instance().start()
     #create daemon scheduler thread
-    
+
+        
 
 if __name__ == "__main__":
     main()

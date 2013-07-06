@@ -260,3 +260,43 @@ nav a:hover{
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3 { page-break-after: avoid; }
 }
+
+section {
+    padding: 5px;
+    margin: 5px 0 5px 0;
+    border-spacing: 200px;
+    border-width: 1px;
+    border-style: dashed;
+    border-color: #777;
+    transition-duration: 1s;
+    z-index: 1;
+}
+
+section.active {
+	z-index: 1000;
+	background-color: #eee;
+	border:1px solid gray;
+}
+
+.coupon-image {
+	width: 100%;
+	height: auto;
+	transition-duration: 1s;
+}
+
+.inactive {
+	-webkit-filter: blur(5px) saturate(4.2); 
+	filter: url(#blur-effect-1);
+}
+
+.check-inactive {
+	display:none;
+	z-index: 0;
+}
+
+.check-active {
+	text-align: center;
+	vertical-align: middle;
+	display:inline;
+	z-index: 1000;
+}
