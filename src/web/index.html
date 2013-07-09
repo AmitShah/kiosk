@@ -19,6 +19,7 @@
 	<script src="{{ static_url("js/libs/jquery-1.10.2.min.js")}}"></script>
 	<script src="{{ static_url("js/libs/handlebars.js")}}"></script>
 	
+	<script src="{{static_url("js/main.js")}}"></script>
 </head>
 <body>
 
@@ -27,13 +28,20 @@
 			<h1 id="title">Coupon Network</h1>
 			<nav>
 				<ul>
-					<li><a id="myCoupons" href="#">My Coupons (<span id="couponCount"></span>)</a></li>
+					<li id="my-coupon-btn"><a id="myCoupons" href="#">My Coupons (<span id="couponCount"></span>)</a></li>
 				</ul>
 			</nav>
 		</header>
 		
 	</div>
 	<div id="main-container">
+		<div id="my-coupons" class="my-coupons">
+			Test<br />
+			Test<br />
+			Test<br />
+			Test<br />
+			Test<br />
+		</div>
 		<div id="main" class="wrapper clearfix">
 			<article id="article">
 				<header>
@@ -69,12 +77,13 @@
 		</div> <!-- #main -->
 	</div> <!-- #main-container -->
 
+<!--
 	<div id="footer-container">
 		<footer class="wrapper">
 			<h3>footer</h3>
 		</footer>
 	</div>
-
+-->
 </body>
 <script type="text/javascript">
 	if (Modernizr.localStorage){

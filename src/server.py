@@ -80,7 +80,9 @@ def main():
       "static_path": os.path.join(os.path.dirname(__file__),'web'),
       "cookie_secret": "digital_display_cookie"
     }
-    
+
+    print(settings)
+
     http_server = tornado.httpserver.HTTPServer(tornado.web.Application([
         (r"/activate", ActivateOfferHandler),
         (r"/", MainHandler),
