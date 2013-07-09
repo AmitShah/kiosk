@@ -12,12 +12,12 @@
 	<meta name="author" content="">
 
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="{{ static_url("web/css/style.css")}}">
+	<link rel="stylesheet" href="{{ static_url("css/style.css")}}">
 	
 	
-	<script src="{{ static_url("web/js/libs/modernizr-2.0.6.min.js")}}"></script>
-	<script src="{{ static_url("web/js/libs/jquery-1.10.2.min.js")}}"></script>
-	<script src="{{ static_url("web/js/libs/handlebars.js")}}"></script>
+	<script src="{{ static_url("js/libs/modernizr-2.0.6.min.js")}}"></script>
+	<script src="{{ static_url("js/libs/jquery-1.10.2.min.js")}}"></script>
+	<script src="{{ static_url("js/libs/handlebars.js")}}"></script>
 	
 </head>
 <body>
@@ -40,27 +40,27 @@
 					<h1 id="status">Header</h1>
 				</header>
 				<!--section class="active">
-					<div class="check-active" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>
+					<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>
 					<div class="coupon-inner inactive">
-						<img class="coupon-image" src="{{ static_url("web/img/axe.jpg")}}"></img>
+						<img class="coupon-image" src="{{ static_url("img/axe.jpg")}}"></img>
 					</div>
 				</section>
 				<section class="active">
-					<div class="check-active" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>
+					<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>
 					<div class="coupon-inner inactive">
-						<img class="coupon-image" src="{{ static_url("web/img/loreal.jpg")}}"></img>
+						<img class="coupon-image" src="{{ static_url("img/loreal.jpg")}}"></img>
 					</div>
 				</section>
 				<section>
-					<div class="check-inactive" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>
+					<div class="check-inactive" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>
 					<div class="coupon-inner">
-						<img class="coupon-image" src="{{ static_url("web/img/axe.jpg")}}"></img>
+						<img class="coupon-image" src="{{ static_url("img/axe.jpg")}}"></img>
 					</div>
 				</section>
 				<section class="active">
-					<div class="check-active" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>
+					<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>
 					<div class="coupon-inner inactive">
-						<img class="coupon-image" src="{{ static_url("web/img/loreal.jpg")}}"></img>
+						<img class="coupon-image" src="{{ static_url("img/loreal.jpg")}}"></img>
 					</div>
 				</section-->
 				
@@ -89,7 +89,7 @@
 				
 		try{
 		
-			var ws = new WebSocket("ws://localhost:8080/activate");
+			var ws = new WebSocket("ws://10.0.0.1:8080/activate");
 			ws.onopen = function() {
 			  $('#status').html('connection established...'); 	
 			  		   
@@ -123,14 +123,14 @@
 		      	var str = '';
 		      	if(localStorage.getItem(key)===null){
 			      	str = '<section id="'+ key+'">'+
-					'	<div class="check-inactive" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>'+
+					'	<div class="check-inactive" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>'+
 					'	<div class="coupon-inner">'+
 					//'		<img src="data:image/jpeg;base64,'+data[key]+'" />'+				
 					'	</div>'+
 					'</section>';
 				}else{
 				  	str = '<section id="'+key+'" class="active">'+
-					'<div class="check-active" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>'+
+					'<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>'+
 					'	<div class="coupon-inner inactive">'+
 					//'		<img class="coupon-image" src="data:image/jpeg;base64,'+data[key]+'"></img>'+
 					'	</div>'+
@@ -174,7 +174,7 @@
 			var srcImage = elem.find('.base64-coupon')[0].src;
 			localStorage.setItem(elem[0].id,elem[0].src);
 			$('#couponCount').html(localStorage.length);
-			var str = '<div class="check-active" style="position:absolute;"><img src="{{ static_url("web/img/check.png")}}"></img></div>'+
+			var str = '<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>'+
 					'	<div class="coupon-inner inactive">'+
 					//'		<img class="coupon-image" src="data:image/jpeg;base64,'+data[key]+'"></img>'+
 					'	</div>';	

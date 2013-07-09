@@ -77,7 +77,7 @@ coupons = CouponCache('coupon')
          
 def main():
     settings = {
-      "static_path": os.path.dirname(__file__),
+      "static_path": os.path.join(os.path.dirname(__file__),'web'),
       "cookie_secret": "digital_display_cookie"
     }
     
