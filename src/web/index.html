@@ -35,7 +35,7 @@
 
 		<div class="saved-text"><span id="couponCount"></span> Coupons Saved</div>
 		<div class="expand-arrow" id="expandMyCoupons">
-		<img src="{{ static_url("img/expand-arrow-down.png") }}" style="width:100%; height:100%;"></img>
+			<img src="{{ static_url("img/expand-arrow-down.png") }}" style="width:100%; height:100%;"></img>
 		</div>
 	</div>
 	<div style="position:absolute; top: 130px; width: 100%;	height:50px;">
@@ -44,35 +44,22 @@
 		</div>
 	</div>
 	<div class="available-coupons">
-		<h1>Available Coupons</h1>
-		<div class="coupon-images">
-			<div class="coupon-img">
-				<img src="{{ static_url("img/Axe03.jpg") }}"></img>
-			</div>
-		</div>
-		<div class="coupon-images" id="coupons">
+		<h1>Available Coupons</h1>		
+		<div id="coupons" class="coupon-images">
 			
-		</div>
+		</div>		
 	</div>
 
 </body>
 <script type="text/javascript">
 	//Extend Modernizr
-	Modernizr.prototype.filters = function(){
-		var el = document.createElement('div');
-		el.style.cssText = ''
-		return !!el.style.length && ((documnet.documentMode===undefined || document.documentMode>9)); 
-		
-	}
+	
+
 	if (Modernizr.localStorage){
 		//local storage is available
 	}else{
 		//output coupons will not be saved :( 
 	}
-	var cssSupport= '';
-	if (!Modernizr.filters && !Modernizr.svgfilters){
-		cssSupport='not-supported';
-	}		
 	
 	var runApp = function(){
 		//creating streaming connection for future use case
@@ -94,6 +81,7 @@
 			  retry();
 			};
 		}catch(e) {
+			$('#status').html('web socket error...'); 	
 			retry();
 		}
 		
@@ -104,19 +92,27 @@
 		  cache:'false',
 		  //data: data,
 		  success: function(data){
+
 		      $('#couponCount').html(localStorage.length);
 		  	  
 		      var coupons = $('#coupons');
-		      var width = coupons.width();
-		      coupons.find('img').remove();//remove all coupons previously available
+		      coupons.find('.coupon-img').remove();//remove all coupons previously available
 		      for(var key in data){
 		      	var str = '';
-		      	      	
 		      	if(localStorage.getItem(key) === null){
-				str = '<img id="'+key+'" class="base64-coupon" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'"/>';
+				str = '<div id="'+key+'" class="coupon-img"></div>';
 				
 			}else{
-				str = '<img id="'+key+'" class="base64-coupon coupon-image" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'" />';
+				str = '<div id="'+key+'" class="coupon-img acquired"></div>';
+			}  
+			coupons.append(str);
+			var div = coupons.find('#'+key);
+			var width = div[0].width();
+		      	if(localStorage.getItem(key) === null){
+				str = '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'"/>';
+				
+			}else{
+				str = '<img class="base64-coupon coupon-image" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'" />';
 			}  
 			coupons.append(str);    	
 		      }
@@ -136,11 +132,10 @@
 	
 		
 	//setup global handlers
-	$('#myCoupons').click(function(e){
-			e.preventDefault();
-			localStorage.clear();
-			alert('reset offers');
-			$('#couponCount').html(localStorage.length);
+	$('.my-coupons').click(function(e){
+		
+		toggleMenu();
+		
 		  	  
 	});
 	var handler = $('#coupons').delegate('img', 'click', function(e){
@@ -155,7 +150,7 @@
 			
 	});
 	
-	Mod
+	
 	$(document).ready(function(){
 		runApp();
 	});
