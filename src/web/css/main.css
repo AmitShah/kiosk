@@ -187,8 +187,12 @@ body {
 
 .collected-coupon-text {
 	display: inline-block;
+	height: 100px;
+	width: 50%;
+	overflow: hidden;
+	word-wrap: break-word;
+	-ms-word-wrap: break-word;
 	margin-left: 5px;
-	line-height: 5;
 }
 
 .collected-coupon-text:after {
