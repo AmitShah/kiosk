@@ -1,39 +1,31 @@
-$(document).ready(function() {
-	var couponsButton = $("#my-coupon-btn");
-	var myCouponsOpen = false;
+var menu_open = false;
 
-	// Move the main container to the proper location
-	$('#main').css("top", $('#header-container').outerHeight(true));
+function toggleMenu() {
+	if (menu_open) {
+		closeMenu();
+	}
+	else {
+		openMenu();
+	}
+}
 
-	// On My Coupons click, open or close the coupons menu
-	couponsButton.on("click", function() {
-		var navbarHeight = $("#header-container").outerHeight(true);
-		var content = $('#main');
-		var myCoupons = $('#my-coupons');
-		var myCouponsHeight = myCoupons.outerHeight(true);
+function openMenu() {
+	var header_height = $('.header-outer').outerHeight(true);
+	var height = $('#collected-coupons').outerHeight(true);
+	$('.available-coupons').css("top", height + header_height);
+	$('#collected-coupons').css("bottom", -1*height);
+	$('.expand-arrow').addClass("expanded");
 
-		// If the coupons drawer is already open, then close it
-		if (myCouponsOpen) {
-			myCoupons.css("top", navbarHeight);
-			content.css("top", navbarHeight + myCouponsHeight);
-			myCoupons.animate({
-				top: navbarHeight - myCouponsHeight
-			});
-			content.animate({
-				top: navbarHeight
-			});
-			myCouponsOpen = false;
-		}
-		else {
-			myCoupons.css("top", navbarHeight - myCouponsHeight);
-			content.css("top", navbarHeight);
-			myCoupons.animate({
-				top: navbarHeight
-			});
-			content.animate({
-				top: navbarHeight + myCouponsHeight
-			});
-			myCouponsOpen = true;
-		}
-	});
-});
+	menu_open = true;
+}
+
+function closeMenu() {
+	var header_height = $('.header-outer').outerHeight(true);
+	var height = $('#collected-coupons').outerHeight(true);
+
+	$('.available-coupons').css("top", header_height);
+	$('#collected-coupons').css("bottom", 0);
+	$('.expand-arrow').removeClass("expanded");
+
+	menu_open = false;
+}
