@@ -86,7 +86,9 @@
 	</div>
 	<div class="available-coupons">
 		<h1>Available Coupons</h1>		
-		<div id="coupons" class="coupon-images"></div>	
+		<div id="coupons" class="coupon-images">
+		</div>	
+
 	</div>
 
 </body>
@@ -105,7 +107,7 @@
 				
 		try{
 		
-			var ws = new WebSocket("ws://10.0.0.1:8080/activate");
+			var ws = new WebSocket("ws://127.0.0.1:8080/activate");
 			ws.onopen = function() {
 			  $('#status').html('connected'); 	
 			  //lets get the coupons
