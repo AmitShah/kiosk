@@ -30,10 +30,12 @@
 		Coupon <br/>
 		Network
 	</div>
+	
 	<div class="my-coupons">
-		<div class="saved-text">x Coupons Saved</div>
+
+		<div class="saved-text"><span id="couponCount"></span> Coupons Saved</div>
 		<div class="expand-arrow" id="expandMyCoupons">
-			<img src="{{ static_url("img/expand-arrow-down.png") }}" style="width:100%; height:100%;"></img>
+		<img src="{{ static_url("img/expand-arrow-down.png") }}" style="width:100%; height:100%;"></img>
 		</div>
 	</div>
 	<div style="position:absolute; top: 130px; width: 100%;	height:50px;">
@@ -48,67 +50,29 @@
 				<img src="{{ static_url("img/Axe03.jpg") }}"></img>
 			</div>
 		</div>
-	</div>
-
-	<!--
-	<div id="main-container">
-		<div id="my-coupons" class="my-coupons">
-			Test<br />
-			Test<br />
-			Test<br />
-			Test<br />
-			Test<br />
-		</div>
-		<div id="main" class="wrapper clearfix">
-			<article id="article">
-				<header>
-					<h1 id="status">Header</h1>
-				</header>
-				<section class="active">
-					<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>
-					<div class="coupon-inner inactive">
-						<img class="coupon-image" src="{{ static_url("img/axe.jpg")}}"></img>
-					</div>
-				</section>
-				<section class="active">
-					<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>
-					<div class="coupon-inner inactive">
-						<img class="coupon-image" src="{{ static_url("img/loreal.jpg")}}"></img>
-					</div>
-				</section>
-				<section>
-					<div class="check-inactive" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>
-					<div class="coupon-inner">
-						<img class="coupon-image" src="{{ static_url("img/axe.jpg")}}"></img>
-					</div>
-				</section>
-				<section class="active">
-					<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>
-					<div class="coupon-inner inactive">
-						<img class="coupon-image" src="{{ static_url("img/loreal.jpg")}}"></img>
-					</div>
-				</section-
-				
-			</article>
+		<div class="coupon-images" id="coupons">
 			
-		</div> 
-	</div> 
-
-<!
-	<div id="footer-container">
-		<footer class="wrapper">
-			<h3>footer</h3>
-		</footer>
+		</div>
 	</div>
--->
+
 </body>
 <script type="text/javascript">
+	//Extend Modernizr
+	Modernizr.prototype.filters = function(){
+		var el = document.createElement('div');
+		el.style.cssText = ''
+		return !!el.style.length && ((documnet.documentMode===undefined || document.documentMode>9)); 
+		
+	}
 	if (Modernizr.localStorage){
 		//local storage is available
 	}else{
 		//output coupons will not be saved :( 
 	}
-		
+	var cssSupport= '';
+	if (!Modernizr.filters && !Modernizr.svgfilters){
+		cssSupport='not-supported';
+	}		
 	
 	var runApp = function(){
 		//creating streaming connection for future use case
@@ -140,35 +104,21 @@
 		  cache:'false',
 		  //data: data,
 		  success: function(data){
+		      $('#couponCount').html(localStorage.length);
 		  	  
-		  	  $('#couponCount').html(localStorage.length);
-		  	  
-		      var d = $('#article');
-		      d.find('section').remove();
+		      var coupons = $('#coupons');
+		      var width = coupons.width();
+		      coupons.find('img').remove();//remove all coupons previously available
 		      for(var key in data){
 		      	var str = '';
-		      	if(localStorage.getItem(key)===null){
-			      	str = '<section id="'+ key+'">'+
-					'	<div class="check-inactive" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>'+
-					'	<div class="coupon-inner">'+
-					//'		<img src="data:image/jpeg;base64,'+data[key]+'" />'+				
-					'	</div>'+
-					'</section>';
-				}else{
-				  	str = '<section id="'+key+'" class="active">'+
-					'<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>'+
-					'	<div class="coupon-inner inactive">'+
-					//'		<img class="coupon-image" src="data:image/jpeg;base64,'+data[key]+'"></img>'+
-					'	</div>'+
-					'</section>';
-				}
-		      	d.append(str);
-		      	var i = d.find('#'+key + ' .coupon-inner');
+		      	      	
 		      	if(localStorage.getItem(key) === null){
-			      	i.append('<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+i.width()+'" />');
-				}else{
-				  	i.append('<img class="base64-coupon coupon-image" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+i.width()+'" />');
-				}      	
+				str = '<img id="'+key+'" class="base64-coupon" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'"/>';
+				
+			}else{
+				str = '<img id="'+key+'" class="base64-coupon coupon-image" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'" />';
+			}  
+			coupons.append(str);    	
 		      }
 		  },
 		  error: function(e){
@@ -193,27 +143,24 @@
 			$('#couponCount').html(localStorage.length);
 		  	  
 	});
-	var handler = $('#article').delegate('section', 'click', function(e){
+	var handler = $('#coupons').delegate('img', 'click', function(e){
+			e.preventDefault();
 			//todo:update local storage
 			elem = $(this);		
-				
-			var srcImage = elem.find('.base64-coupon')[0].src;
+			
+			var srcImage = elem[0].src;
 			localStorage.setItem(elem[0].id,elem[0].src);
 			$('#couponCount').html(localStorage.length);
-			var str = '<div class="check-active" style="position:absolute;"><img src="{{ static_url("img/check.png")}}"></img></div>'+
-					'	<div class="coupon-inner inactive">'+
-					//'		<img class="coupon-image" src="data:image/jpeg;base64,'+data[key]+'"></img>'+
-					'	</div>';	
-			elem.addClass('active');
-			elem.html(str);
-			var i = elem.find('.coupon-inner');
-			i.append('<img class="coupon-image" src="'+srcImage+'" style="width:'+i.width()+'" />');
+			
 			
 	});
 	
+	Mod
 	$(document).ready(function(){
 		runApp();
 	});
+
+	
 </script>
 
 
