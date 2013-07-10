@@ -131,3 +131,15 @@ body {
 	bottom: 0;
 	transition-duration: 0.5s;
 }
+
+.collected-coupon {
+	height: 50px;
+}
+
+.status {
+	color: white;
+	z-index: 1001;
+	position: absolute;
+	top: 110px;
+	right: 10px;
+}
