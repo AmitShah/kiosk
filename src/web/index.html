@@ -18,6 +18,7 @@
 	<script src="{{ static_url("js/libs/jquery-1.10.2.min.js")}}"></script>
 	<script src="{{ static_url("js/libs/bootstrap.min.js")}}"></script>
 	<script src="{{ static_url("js/libs/handlebars.js")}}"></script>
+	<script src="{{ static_url("js/main.js")}}"></script>
 </head>
 <body>
 	<div class="header-outer">
@@ -31,8 +32,13 @@
 	</div>
 	<div class="my-coupons">
 		<div class="saved-text">x Coupons Saved</div>
-		<div class="expand-arrow">
+		<div class="expand-arrow" id="expandMyCoupons">
 			<img src="{{ static_url("img/expand-arrow-down.png") }}" style="width:100%; height:100%;"></img>
+		</div>
+	</div>
+	<div style="position:absolute; top: 130px; width: 100%;	height:50px;">
+		<div class="collected-coupons" id="collected-coupons">
+			This is a test
 		</div>
 	</div>
 	<div class="available-coupons">

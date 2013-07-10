@@ -25,6 +25,7 @@ body {
 	background-repeat: no-repeat;
 	height: 180px; 
 	width: 100%; 
+	z-index: 1000;
 }
 
 .header-background {
@@ -40,6 +41,7 @@ body {
 	width: 100%;
 
 	-webkit-filter: saturate(1.5) blur(7px);
+	filter: blur(7px);
 }
 
 .header-background.not-supported {
@@ -50,6 +52,7 @@ body {
 .title, .my-coupons {
 	color: white;
 	font-weight: 200;
+	z-index: 1001;
 }
 
 .title {
@@ -86,7 +89,7 @@ body {
 	transition-property: transform;
 }
 
-.expand-arrow:hover {
+.expand-arrow.expanded {
 	transform: rotate(180deg);
 	-webkit-transform: rotate(180deg);
 }
@@ -95,6 +98,9 @@ body {
 	position: absolute;
 	top: 180px;
 	margin-left: 5px;
+	z-index: 0;
+	transition-duration: 0.5s;
+	transition-property: top;
 }
 
 .available-coupons h1 {
@@ -117,4 +123,11 @@ body {
 .coupon-img {
 	text-align: center;
 	width: 100%;
+}
+
+.collected-coupons {
+	position: absolute;
+	z-index: 5;
+	bottom: 0;
+	transition-duration: 0.5s;
 }
