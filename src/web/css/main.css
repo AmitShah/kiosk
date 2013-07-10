@@ -1,4 +1,15 @@
-@import url(http://fonts.googleapis.com/css?family=Raleway:400,200);
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Raleway ExtraLight'), local('Raleway-ExtraLight'), url(../fonts/raleway-light.woff) format('woff');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url(../fonts/raleway.woff) format('woff');
+}
 
 body {
 	margin: 0;
@@ -7,12 +18,20 @@ body {
 	background-color: rgb(228, 228, 219);
 }
 
+.header-outer {
+	position:absolute;
+	background-image: url(../img/the-bay.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 180px; 
+	width: 100%; 
+}
+
 .header-background {
 	position: absolute;
 	top:0;
 
 	overflow: hidden;
-	margin: -7px -14px -14px -7px;
 
 	background-image: url(../img/the-bay.jpg);
 	background-size: cover;
@@ -21,6 +40,11 @@ body {
 	width: 100%;
 
 	-webkit-filter: saturate(1.5) blur(7px);
+}
+
+.header-background.not-supported {
+	background-color: black;
+	opacity: 0.4;
 }
 
 .title, .my-coupons {
