@@ -98,6 +98,7 @@ body {
 	position: absolute;
 	top: 180px;
 	margin-left: 5px;
+	width: 100%;
 	z-index: 0;
 	transition-duration: 0.5s;
 	transition-property: top;
@@ -125,9 +126,41 @@ body {
 	width: 100%;
 }
 
+.coupon-img.acquired {
+
+}
+
 .collected-coupons {
 	position: absolute;
+	width: 100%;
 	z-index: 5;
 	bottom: 0;
+	background-color: rgb(241, 241, 241);
 	transition-duration: 0.5s;
+}
+
+.collected-coupon {
+	width: 100%;
+	height: 50px;
+	font-size: 16pt;
+	border-bottom: 1px solid #7d7d7d;
+	color: #686868;
+}
+
+.collected-coupon-text {
+	margin-left: 5px;
+	line-height: 2.5;
+}
+
+.status {
+	color: white;
+	z-index: 1001;
+	position: absolute;
+	top: 110px;
+	right: 10px;
+}
+
+.barcode {
+	height: 45px;
+	width: 100px;
 }

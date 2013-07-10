@@ -26,6 +26,9 @@
 			<img style="width: 100%" src="{{ static_url("img/the-bay.jpg") }}"></img>
 		</div>
 	</div>
+	<div class="status" id="status">
+		connecting...
+	</div>
 	<div class="title">
 		Coupon <br/>
 		Network
@@ -40,14 +43,27 @@
 	</div>
 	<div style="position:absolute; top: 130px; width: 100%;	height:50px;">
 		<div class="collected-coupons" id="collected-coupons">
-			This is a test
+			<div class="collected-coupon">
+				<div class="collected-coupon-text">Free chocolate</div>
+				<div style="text-align: right;">
+					<div class="barcode">
+						<img style="width:100%; height: 100%;" src="{{ static_url("img/axe.jpg") }}"></img>
+					</div>
+				</div>
+			</div>
+			<div class="collected-coupon">
+				<div class="collected-coupon-text">20% off anything</div>
+				<div style="text-align: right;">
+					<div class="barcode">
+						<img style="width:100%; height: 100%;" src="{{ static_url("img/axe.jpg") }}"></img>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="available-coupons">
 		<h1>Available Coupons</h1>		
-		<div id="coupons" class="coupon-images">
-			
-		</div>		
+		<div id="coupons" class="coupon-images"></div>	
 	</div>
 
 </body>
@@ -107,7 +123,7 @@
 			}  
 			coupons.append(str);
 			var div = coupons.find('#'+key);
-			var width = div[0].width();
+			var width = div.width();
 		      	if(localStorage.getItem(key) === null){
 				str = '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'"/>';
 				
