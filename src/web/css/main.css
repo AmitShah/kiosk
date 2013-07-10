@@ -40,8 +40,11 @@ body {
 	height: 180px;
 	width: 100%;
 
+	filter: saturate(1.5) blur(7px);
 	-webkit-filter: saturate(1.5) blur(7px);
-	filter: blur(7px);
+	-moz-filter: saturate(1.5) blur(7px);
+	-o-filter: saturate(1.5) blur(7px);
+	-ms-filter: saturate(1.5) blur(7px);
 }
 
 .header-background.not-supported {
@@ -84,14 +87,23 @@ body {
 	width:40px;
 	height:40px;
 	-webkit-transition-duration: 0.5s;
+	-moz-transition-duration: 0.5s;
+	-ms-transition-duration: 0.5s;
+	-o-transition-duration: 0.5s;
 	transition-duration: 0.5s;
 	-webkit-transition-property: -webkit-transform;
 	transition-property: transform;
+	-moz-transition-property: -moz-transform;
+	-ms-transition-property: -ms-transform;
+	-o-transition-property: -o-transform;
 }
 
 .expand-arrow.expanded {
 	transform: rotate(180deg);
 	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
 }
 
 .available-coupons {
@@ -99,8 +111,16 @@ body {
 	top: 180px;
 	width: 100%;
 	z-index: 0;
+	-webkit-transition-duration: 0.5s;
+	-moz-transition-duration: 0.5s;
+	-ms-transition-duration: 0.5s;
+	-o-transition-duration: 0.5s;
 	transition-duration: 0.5s;
+	-webkit-transition-property: top;
 	transition-property: top;
+	-moz-transition-property: top;
+	-ms-transition-property: top;
+	-o-transition-property: top;
 }
 
 .available-coupons h1 {
@@ -126,11 +146,17 @@ body {
 }
 
 .blur {
-
+	filter: saturate(1.5) blur(7px);
+	-webkit-filter: saturate(1.5) blur(7px);
+	-moz-filter: saturate(1.5) blur(7px);
+	-o-filter: saturate(1.5) blur(7px);
+	-ms-filter: saturate(1.5) blur(7px);
 }
 
-.opacity {
-
+.opaque {
+	background-color: black;
+	opacity: 0.4;
+	filter: opacity(0.4);
 }
 
 .collected-coupons {
@@ -139,6 +165,10 @@ body {
 	z-index: 5;
 	bottom: 0;
 	background-color: rgb(241, 241, 241);
+	-webkit-transition-duration: 0.5s;
+	-moz-transition-duration: 0.5s;
+	-ms-transition-duration: 0.5s;
+	-o-transition-duration: 0.5s;
 	transition-duration: 0.5s;
 }
 
