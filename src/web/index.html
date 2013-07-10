@@ -107,8 +107,45 @@
 		
 			var ws = new WebSocket("ws://10.0.0.1:8080/activate");
 			ws.onopen = function() {
-			  $('#status').html('connection established...'); 	
-			  		   
+			  $('#status').html('connected'); 	
+			  //lets get the coupons
+			//retrieve current offers available from kiosk
+			$.ajax({
+			  url: '/coupon',
+			  dataType:'json',
+			  cache:'false',
+			  //data: data,
+			  success: function(data){
+	
+			      $('#couponCount').html(localStorage.length);
+			  	  
+			      var coupons = $('#coupons');
+			      coupons.find('.coupon-img').remove();//remove all coupons previously available
+			      for(var key in data){
+			      	var str = '';
+			      	if(localStorage.getItem(key) === null){
+					str = '<div id="'+key+'" class="coupon-img"></div>';
+					
+				}else{
+					str = '<div id="'+key+'" class="coupon-img acquired"></div>';
+				}  
+				coupons.append(str);
+				var div = coupons.find('#'+key);
+				var width = div.width();
+			      	if(localStorage.getItem(key) === null){
+					str = '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'"/>';
+					
+				}else{
+					str = '<img class="base64-coupon coupon-image" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'" />';
+				}  
+				div.append(str);    	
+			      }
+			  },
+			  error: function(e){
+			  	$('#status').html('refresh page');
+			  }
+			  
+			});		   
 			};
 			ws.onmessage = function (evt)
 			{
@@ -116,57 +153,22 @@
 			};
 			ws.onclose = function()
 			{
+			  $('#status').html('retry'); 
 			  // websocket is closed.
 			  retry();
 			};
 		}catch(e) {
-			$('#status').html('web socket error...'); 	
+			$('#status').html('retry'); 	
 			retry();
 		}
 		
-		//retrieve current offers available from kiosk
-		$.ajax({
-		  url: '/coupon',
-		  dataType:'json',
-		  cache:'false',
-		  //data: data,
-		  success: function(data){
-
-		      $('#couponCount').html(localStorage.length);
-		  	  
-		      var coupons = $('#coupons');
-		      coupons.find('.coupon-img').remove();//remove all coupons previously available
-		      for(var key in data){
-		      	var str = '';
-		      	if(localStorage.getItem(key) === null){
-				str = '<div id="'+key+'" class="coupon-img"></div>';
-				
-			}else{
-				str = '<div id="'+key+'" class="coupon-img acquired"></div>';
-			}  
-			coupons.append(str);
-			var div = coupons.find('#'+key);
-			var width = div.width();
-		      	if(localStorage.getItem(key) === null){
-				str = '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'"/>';
-				
-			}else{
-				str = '<img class="base64-coupon coupon-image" src="data:image/jpeg;base64,'+data[key]+'" style="width:'+width+'" />';
-			}  
-			coupons.append(str);    	
-		      }
-		  },
-		  error: function(e){
-		  	$('#status').html('waiting for kiosk');
-		  }
-		  
-		});
+		
 		
 	}
 	
 	var retry = function(){
-		$('#status').html('waiting for connection...');
-		setTimeout(runApp, 1000);
+		$('#status').html('waiting for kiosk...');
+		setTimeout(runApp, 5000);
 	}
 	
 		

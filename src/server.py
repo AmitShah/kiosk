@@ -43,14 +43,15 @@ class ActivateOfferHandler(websocket.WebSocketHandler):
         observer.unsubscribe(self.value)
         print 'close connection'
  
-import base64, hashlib
+import base64, hashlib,json
 
 class CouponCache(object):
     coupons = {}
     encoded = ''
     def  __init__(self, str_dir):    
         self.dir = os.path.abspath(str_dir)
-        self.update()
+        self.get_config()
+	self.update()
         
     def get_encoded(self):
         return self.encoded
@@ -59,10 +60,20 @@ class CouponCache(object):
         files = [os.path.join(self.dir,f) for f in os.listdir(self.dir) if os.path.isfile(os.path.join(self.dir,f))]
         for f in files:
             with open(f, "rb") as image_file:
-                self.coupons[int(hashlib.md5(f).hexdigest(), 16)] = (base64.b64encode(image_file.read()))
+                description = self.config[os.path.basename(f)]
+		self.coupons[int(hashlib.md5(f).hexdigest(), 16)] = {"data":(base64.b64encode(image_file.read())),"description": description }
              
         self.encoded = json_encode(self.coupons)
-        
+
+    def get_config(self):
+	with open(os.path.join(self.dir,'config/config.json')) as config:
+	    data = config.read()
+	    config.close()
+	    print data
+	    self.config = json.loads(data)
+	    
+	  
+  
 class CouponHandler(web.RequestHandler): 
     def get(self):
         self.write(coupons.get_encoded())
