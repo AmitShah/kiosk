@@ -125,6 +125,10 @@ body {
 	width: 100%;
 }
 
+.coupon-img.acquired {
+	
+}
+
 .collected-coupons {
 	position: absolute;
 	z-index: 5;
