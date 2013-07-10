@@ -159,3 +159,8 @@ body {
 	top: 110px;
 	right: 10px;
 }
+
+.barcode {
+	height: 45px;
+	width: 100px;
+}
