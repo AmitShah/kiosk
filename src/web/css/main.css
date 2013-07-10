@@ -192,7 +192,8 @@ body {
 	overflow: hidden;
 	word-wrap: break-word;
 	-ms-word-wrap: break-word;
-	margin-left: 5px;
+	margin: 10px 0 0 5px;
+	vertical-align: middle;
 }
 
 .collected-coupon-text:after {
