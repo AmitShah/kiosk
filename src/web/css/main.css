@@ -225,3 +225,7 @@ body {
 	#height: 10%;
 	z-index:1000;
 }
+
+.hide{
+	display:none;
+}

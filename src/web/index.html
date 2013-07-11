@@ -80,7 +80,6 @@
 		
 	}
 	
-	
 	if(!cssfilterDetect()){
 		filterEffect = 'opaque';
 		$('#headerImg').addClass(filterEffect);
@@ -92,52 +91,20 @@
 		//output coupons will not be saved :( 
 	}
 	
+	
+
+	
+	
 	var runApp = function(){
 		//creating streaming connection for future use case
 				
 		try{
-			localStorage.clear();
-
+			//localStorage.clear();
 			var ws = new WebSocket("ws://10.0.0.1:8080/activate");
 			ws.onopen = function() {
 			  $('#status').html('connected'); 	
-			  //lets get the coupons
-			//retrieve current offers available from kiosk
-			$.ajax({
-			  url: '/coupon',
-			  dataType:'json',
-			  cache:'false',
-			  //data: data,
-			  success: function(data){
-	
-			      $('#couponCount').html(localStorage.length);
-			  	  
-			      var coupons = $('#coupons');
-			      coupons.find('.coupon-img').remove();//remove all coupons previously available
-			      for(var key in data){
-			      	var str = '<div id="'+key+'" class="coupon-img"></div>';
-					
-				coupons.append(str);
-				var div = coupons.find('#'+key);
-				var width = div.width();
-			      	
-				str = '<div class="checked"><img src="{{static_url("img/check.png")}}" /></div>'
-					
-				if(localStorage.getItem(key) === null){
-					str += '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'"/>';
-					
-				}else{
-					str += '<img class="base64-coupon '+filterEffect+'" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'" />';
-				}  
-				div.append(str);   
-				activeCoupons[key] = {'key':key,'description':data[key].description}; 	
-			      }
-			  },
-			  error: function(e){
-			  	$('#status').html('refresh page');
-			  }
-			  
-			});		   
+			  getCoupons();
+					   
 			};
 			ws.onmessage = function (evt)
 			{
@@ -163,22 +130,42 @@
 		setTimeout(runApp, 5000);
 	}
 	
-		
-	var getCoupon = function(coupon){
-		localStorage.setItem(coupon.key,coupon);
-	};
-
-	var removeCoupon = function(couponKey){
-		localStorage.removeItem(couponKey);
-	};
+	var getCoupons = function (){
+		$.ajax({
+			  url: '/coupon',
+			  dataType:'json',
+			  cache:'false',
+			  //data: data,
+			  success: function(data){
+				activeCoupons = data;	
+				updateMyCouponsUI();
+				updateActiveCouponsUI();				      
+			  },
+			  error: function(e){
+			  	$('#status').html('refresh page');
+			  }
+			  
+			});
+	}
+	var updateMyCouponsUI = function(){
+		$('#couponCount').html(localStorage.length);	  			  	  
+		var coupons = $('#collectedCoupons');
+		coupons.html('');
+		for(var key in localStorage){
+			var item = JSON.parse(localStorage.getItem(key));
+			coupons.append(myCouponsTemplate(key,item.description));
+		}
+	}
 	
-	var createMyCouponDiv = function(key, description){
-		var str = '<div>'+
-			  '	<div class="coupon-actions" style="height: 10px; width:100%; font-size: smaller; text-align: right;">'+
-			'		<a href="#">remove</a>'+
+	var myCouponsTemplate = function(key,description){
+	
+		var str = 
+			'<div>'+
+			'	<div class="coupon-actions" style="height: 10px; width:100%; font-size: smaller; text-align: right;">'+
+			'		<a href="#" id="remove_'+key+'" class="remove-coupon">remove</a>'+
 			'	</div>'+
 			'	<div class="collected-coupon">'+
-			'		<div class="collected-coupon-text">Free chocolate</div>'+
+			'		<div class="collected-coupon-text">'+description+'</div>'+
 			'		<div style="float: right;">'+
 			'			<div class="barcode">'+
 			'				<img style="width:100%; height: 100%;" src="{{ static_url("img/barcode.png") }}"></img>'+
@@ -188,27 +175,84 @@
 			'</div>';
 		return str;
 	}
+	
+	var addMyCoupon = function(key,description){
+		$('#couponCount').html(localStorage.length);	  			  	  
+		var coupons = $('#collectedCoupons');
+		coupons.append(myCouponsTemplate(key,description));
+		
+	};
+	
+	var removeActiveCoupon = function(key){		
+		var coupon = $('#'+key);
+		coupon.removeClass('disabled');
+		coupon.find('.checked').addClass('hide');
+		coupon.find('.base64-coupon').removeClass(filterEffect);
+	}
+	
+	var updateActiveCouponsUI = function(){
+	  
+	  var coupons = $('#coupons');
+	  coupons.html('');//remove all coupons previously available
+	
+	 	      
+	  var data = activeCoupons;
+	  for(var key in data){
+		var str = '<div id="'+key+'" class="coupon-img"></div>';
+		coupons.append(str);
+		var div = coupons.find('#'+key);
+		var width = div.width();
+					
+		if(localStorage.getItem(key) === null){
+			str = '<div class="checked hide"><img src="{{static_url("img/check.png")}}" /></div>'
+		  	str += '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'"/>';
+		}else{
+			str = '<div class="checked"><img src="{{static_url("img/check.png")}}" /></div>'
+			str += '<img class="base64-coupon '+filterEffect+'" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'" />';
+		}  
+		div.append(str); 
+		delete data[key]['data'];  
+		 	
+	  }
+	}
+	
 
 	//setup global event handlers
 	$('.my-coupons').click(function(e){
-		toggleMenu();
-		
-		  	  
+		toggleMenu();  	  
 	});
-	var handler = $('#coupons').delegate('.coupon-img', 'click', function(e){
+	
+	var activeCouponClickHandler = $('#coupons').delegate('.coupon-img', 'click', function(e){
 			
 			//todo:update local storage
 			elem = $(this);	
-			elem.find('.base64-coupon').addClass(filterEffect);
-			var key = elem[0].id;
-			
-			var div = (createMyCouponDiv(key,activeCoupons[key].description));
-			alert(div);
-			localStorage.setItem(key,1);
-			$('#couponCount').html(localStorage.length);
-			
-			
+			if(!elem.hasClass('disabled')){
+				elem.find('.base64-coupon').addClass(filterEffect);
+				elem.find('.checked').removeClass('hide');
+				var key = elem[0].id;
+				localStorage.setItem(key,JSON.stringify(activeCoupons[key]));
+				addMyCoupon(key,activeCoupons[key].description);
+				elem.addClass('disabled');
+			}
+						
 	});
+	
+	var myCouponRemoveClickHandler = $('#collectedCoupons').delegate('a.remove-coupon','click',function(e){
+		e.preventDefault();
+		elem = $(this);
+		
+		var key = elem[0].id.split('_')[1];
+		
+		if(activeCoupons.hasOwnProperty(key)){
+			removeActiveCoupon(key);
+		}
+		if(localStorage.getItem(key)!== null){
+			localStorage.removeItem(key);
+		}
+		$('#couponCount').html(localStorage.length);
+		elem.parent().parent().remove();
+		
+	})
 	
 	$(document).ready(function(){
 		runApp();
