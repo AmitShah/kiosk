@@ -219,7 +219,9 @@
 
 	//setup global event handlers
 	$('.my-coupons').click(function(e){
-		toggleMenu();  	  
+		if(localStorage.length > 0){
+			toggleMenu();  	  
+		}
 	});
 	
 	var activeCouponClickHandler = $('#coupons').delegate('.coupon-img', 'click', function(e){
@@ -252,6 +254,11 @@
 		$('#couponCount').html(localStorage.length);
 		elem.parent().parent().remove();
 		
+		if(localStorage.length>0){
+			openMenu();
+		}else {
+			closeMenu();
+		}
 	})
 	
 	$(document).ready(function(){
