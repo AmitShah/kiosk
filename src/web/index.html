@@ -68,6 +68,11 @@
 </body>
 <script type="text/javascript">
 	//Extend Modernizr
+	
+	if(window.location.hostname!== 'coupons.ca'){
+		window.location.replace('coupons.ca');
+	}
+	
 	var activeCoupons = {};
 	var filterEffect = 'blur';
 	

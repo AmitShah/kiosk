@@ -80,6 +80,11 @@ class CouponHandler(web.RequestHandler):
     def post(self,coupon_id):
         self.write(json_encode('ok'))
 
+
+class RedirectHandler(web.RequestHandler): 
+    def get(self):
+        self.redirect('http://coupons.ca')
+    
 #shared memory object
  
 observer = Observable()
@@ -96,9 +101,10 @@ def main():
 
     http_server = tornado.httpserver.HTTPServer(tornado.web.Application([
         (r"/activate", ActivateOfferHandler),
-        (r"/", MainHandler),
+        (r"/",MainHandler ),
         (r"/coupon", CouponHandler),
-        (r"/(apple-touch-icon\.png)", tornado.web.StaticFileHandler,
+        (r".*",RedirectHandler ),
+	(r"/(apple-touch-icon\.png)", tornado.web.StaticFileHandler,
      dict(path=settings['static_path'])),], **settings))
     sockets = tornado.netutil.bind_sockets(8080)
     #tornado.process.fork_processes(0)
