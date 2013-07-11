@@ -23,7 +23,7 @@
 <body>
 	<div class="header-outer">
 		<div class="header-background">
-			<img style="width: 100%" src="{{ static_url("img/the-bay.jpg") }}"></img>
+			<img id="headerImg"  style="width: 100%" src="{{ static_url("img/the-bay.jpg") }}"></img>
 		</div>
 	</div>
 	<div class="status" id="status">
@@ -42,43 +42,17 @@
 		</div>
 	</div>
 	<div style="position:absolute; top: 130px; width: 100%;	height:50px;">
-		<div class="collected-coupons" id="collected-coupons">
-			<div class="collected-coupon">
-				<div class="collected-coupon-text">Free chocolate</div>
-				<div style="float: right;">
-					<div class="remove-coupon">
-						<img style="width:45px; height: 45px;margin-top: 30px;" src="{{ static_url("img/remove_coupon.png") }}"></img>
-					</div>
+		<div class="collected-coupons" id="collectedCoupons">
+			<div>
+				<div class="coupon-actions" style="height: 10px; width:100%; font-size: smaller; text-align: right;">
+					<a href="#">remove</a>
 				</div>
-				<div style="float: right;">
-					<div class="barcode">
-						<img style="width:100%; height: 100%;" src="{{ static_url("img/barcode.png") }}"></img>
-					</div>
-				</div>
-			</div>
-			<div class="collected-coupon">
-				<div class="collected-coupon-text">20% off everything</div>
-				<div style="float: right;">
-					<div class="remove-coupon">
-						<img style="width:45px; height: 45px;margin-top: 30px;" src="{{ static_url("img/remove_coupon.png") }}"></img>
-					</div>
-				</div>
-				<div style="float: right;">
-					<div class="barcode">
-						<img style="width:100%; height: 100%;" src="{{ static_url("img/barcode.png") }}"></img>
-					</div>
-				</div>
-			</div>
-			<div class="collected-coupon">
-				<div class="collected-coupon-text">Five finger discount</div>
-				<div style="float: right;">
-					<div class="remove-coupon">
-						<img style="width:45px; height: 45px;margin-top: 30px;" src="{{ static_url("img/remove_coupon.png") }}"></img>
-					</div>
-				</div>
-				<div style="float: right;">
-					<div class="barcode">
-						<img style="width:100%; height: 100%;" src="{{ static_url("img/barcode.png") }}"></img>
+				<div class="collected-coupon">
+					<div class="collected-coupon-text">Free chocolate</div>
+					<div style="float: right;">
+						<div class="barcode">
+							<img style="width:100%; height: 100%;" src="{{ static_url("img/barcode.png") }}"></img>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -94,8 +68,24 @@
 </body>
 <script type="text/javascript">
 	//Extend Modernizr
+	var activeCoupons = {};
+	var filterEffect = 'blur';
 	
-
+	//helper method
+	var cssfilterDetect = function(){
+		
+		var el = document.createElement('div');
+		el.style.cssText= ['','-webkit-','-moz-','-o-','-ms-'].join('filter:blur(2px);');
+		return !!el.style.length &&((document.documentMode === undefined || document.documentMode>9));
+		
+	}
+	
+	
+	if(!cssfilterDetect()){
+		filterEffect = 'opaque';
+		$('#headerImg').addClass(filterEffect);
+	}
+	
 	if (Modernizr.localStorage){
 		//local storage is available
 	}else{
@@ -106,8 +96,9 @@
 		//creating streaming connection for future use case
 				
 		try{
-		
-			var ws = new WebSocket("ws://127.0.0.1:8080/activate");
+			localStorage.clear();
+
+			var ws = new WebSocket("ws://10.0.0.1:8080/activate");
 			ws.onopen = function() {
 			  $('#status').html('connected'); 	
 			  //lets get the coupons
@@ -124,23 +115,22 @@
 			      var coupons = $('#coupons');
 			      coupons.find('.coupon-img').remove();//remove all coupons previously available
 			      for(var key in data){
-			      	var str = '';
-			      	if(localStorage.getItem(key) === null){
-					str = '<div id="'+key+'" class="coupon-img"></div>';
+			      	var str = '<div id="'+key+'" class="coupon-img"></div>';
 					
-				}else{
-					str = '<div id="'+key+'" class="coupon-img acquired"></div>';
-				}  
 				coupons.append(str);
 				var div = coupons.find('#'+key);
 				var width = div.width();
-			      	if(localStorage.getItem(key) === null){
-					str = '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'"/>';
+			      	
+				str = '<div class="checked"><img src="{{static_url("img/check.png")}}" /></div>'
+					
+				if(localStorage.getItem(key) === null){
+					str += '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'"/>';
 					
 				}else{
-					str = '<img class="base64-coupon coupon-image" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'" />';
+					str += '<img class="base64-coupon '+filterEffect+'" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'" />';
 				}  
-				div.append(str);    	
+				div.append(str);   
+				activeCoupons[key] = {'key':key,'description':data[key].description}; 	
 			      }
 			  },
 			  error: function(e){
@@ -174,25 +164,51 @@
 	}
 	
 		
-	//setup global handlers
+	var getCoupon = function(coupon){
+		localStorage.setItem(coupon.key,coupon);
+	};
+
+	var removeCoupon = function(couponKey){
+		localStorage.removeItem(couponKey);
+	};
+	
+	var createMyCouponDiv = function(key, description){
+		var str = '<div>'+
+			  '	<div class="coupon-actions" style="height: 10px; width:100%; font-size: smaller; text-align: right;">'+
+			'		<a href="#">remove</a>'+
+			'	</div>'+
+			'	<div class="collected-coupon">'+
+			'		<div class="collected-coupon-text">Free chocolate</div>'+
+			'		<div style="float: right;">'+
+			'			<div class="barcode">'+
+			'				<img style="width:100%; height: 100%;" src="{{ static_url("img/barcode.png") }}"></img>'+
+			'			</div>'+
+			'		</div>'+
+			'	</div>'+
+			'</div>';
+		return str;
+	}
+
+	//setup global event handlers
 	$('.my-coupons').click(function(e){
-		
 		toggleMenu();
 		
 		  	  
 	});
-	var handler = $('#coupons').delegate('img', 'click', function(e){
-			e.preventDefault();
-			//todo:update local storage
-			elem = $(this);		
+	var handler = $('#coupons').delegate('.coupon-img', 'click', function(e){
 			
-			var srcImage = elem[0].src;
-			localStorage.setItem(elem[0].id,elem[0].src);
+			//todo:update local storage
+			elem = $(this);	
+			elem.find('.base64-coupon').addClass(filterEffect);
+			var key = elem[0].id;
+			
+			var div = (createMyCouponDiv(key,activeCoupons[key].description));
+			alert(div);
+			localStorage.setItem(key,1);
 			$('#couponCount').html(localStorage.length);
 			
 			
 	});
-	
 	
 	$(document).ready(function(){
 		runApp();
