@@ -223,12 +223,12 @@
 */
 
 	$('#myCouponsBtn').click(function(e) {
-		if (localStorage.length > 0) {
+		//if (localStorage.length > 0) {
 			$('#myCouponsBtn').addClass("active");
 			$('#availableCouponsBtn').removeClass("active");
 			$('#collectedCouponsArea').css("display", "block");
 			$('#availableCouponsArea').css("display", "none");
-		}
+		//}
 	});
 
 	$('#availableCouponsBtn').click(function(e) {
