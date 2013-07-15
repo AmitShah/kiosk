@@ -204,14 +204,19 @@
 		var str = '<div id="'+key+'" class="coupon-img"></div>';
 		coupons.append(str);
 		var div = coupons.find('#'+key);
-		var width = div.width();
-					
+		var width = div.outerWidth(true);
+		var text = data[key].description;
+		var font = getFontSize(text, width);
+		var fontSize = font.fontSize*0.9;
+
 		if(localStorage.getItem(key) === null){
 			str = '<div class="checked hide"><img src="{{static_url("img/check.png")}}" /></div>'
-		  	str += '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'"/>';
+		  	str += '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key].data+'" style="width:' + width + '"/>';
+		  	str += '<div class="coupon-text" style="font-size:' + fontSize + 'pt;">' + text + '</div>';
 		}else{
 			str = '<div class="checked"><img src="{{static_url("img/check.png")}}" /></div>'
 			str += '<img class="base64-coupon '+filterEffect+'" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'" />';
+			str += '<div class="coupon-text ' + filterEffect + '" style="font-size:' + fontSize + 'pt;">' + text + '</div>';
 		}  
 		div.append(str); 
 		delete data[key]['data'];  
@@ -233,6 +238,7 @@
 			elem = $(this);	
 			if(!elem.hasClass('disabled')){
 				elem.find('.base64-coupon').addClass(filterEffect);
+				elem.find('.coupon-text').addClass(filterEffect);
 				elem.find('.checked').removeClass('hide');
 				var key = elem[0].id;
 				localStorage.setItem(key,JSON.stringify(activeCoupons[key]));
