@@ -72,7 +72,9 @@ class CouponCache(object):
 	    print data
 	    self.config = json.loads(data)
 	    
-	  
+class KioskHandler(web.RequestHandler):
+    def get(self):
+    	self.write(json_encode('kiosk1'))
   
 class CouponHandler(web.RequestHandler): 
     def get(self):
@@ -102,6 +104,7 @@ def main():
     http_server = tornado.httpserver.HTTPServer(tornado.web.Application([
         (r"/activate", ActivateOfferHandler),
         (r"/",MainHandler ),
+	(r"/kiosk", KioskHandler),      
         (r"/coupon", CouponHandler),
         (r".*",RedirectHandler ),
 	(r"/(apple-touch-icon\.png)", tornado.web.StaticFileHandler,
