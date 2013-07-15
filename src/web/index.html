@@ -35,31 +35,18 @@
 	</div>
 	
 	<div class="my-coupons">
-
-		<div class="saved-text"><span id="couponCount"></span> Coupons Saved</div>
-		<div class="expand-arrow" id="expandMyCoupons">
-			<img src="{{ static_url("img/expand-arrow-down.png") }}" style="width:100%; height:100%;"></img>
-		</div>
+		<!--<div id="availableCouponBtn" class="saved-text">Available Coupons</div><div id="myCouponsBtn" class="saved-text">My Coupons</div>-->
+		<table>
+			<tr>
+				<td id="availableCouponsBtn" class="active">Available Coupons</td>
+				<td id="myCouponsBtn">My Coupons (<span id="couponCount"></span>)</td>
+			</tr>
+		</table>
 	</div>
-	<div style="position:absolute; top: 130px; width: 100%;	height:50px;">
-		<div class="collected-coupons" id="collectedCoupons">
-			<div>
-				<div class="coupon-actions" style="height: 10px; width:100%; font-size: smaller; text-align: right;">
-					<a href="#">remove</a>
-				</div>
-				<div class="collected-coupon">
-					<div class="collected-coupon-text">Free chocolate</div>
-					<div style="float: right;">
-						<div class="barcode">
-							<img style="width:100%; height: 100%;" src="{{ static_url("img/barcode.png") }}"></img>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div id="collectedCouponsArea" style="position: absolute;top: 180px;width: 100%;z-index: 0; display: none;">
+		<div id="collectedCoupons"></div>
 	</div>
-	<div class="available-coupons">
-		<h1>Available Coupons</h1>		
+	<div id="availableCouponsArea" class="available-coupons" style="display:block;">	
 		<div id="coupons" class="coupon-images">
 		</div>	
 
@@ -161,14 +148,15 @@
 	}
 	
 	var myCouponsTemplate = function(key,description){
-	
+		var fontSize = getFontSize(description, $('body').width()*0.5).fontSize*0.8;
+
 		var str = 
 			'<div>'+
 			'	<div class="coupon-actions" style="height: 10px; width:100%; font-size: smaller; text-align: right;">'+
 			'		<a href="#" id="remove_'+key+'" class="remove-coupon">remove</a>'+
 			'	</div>'+
 			'	<div class="collected-coupon">'+
-			'		<div class="collected-coupon-text">'+description+'</div>'+
+			'		<div class="collected-coupon-text" style="font-size:' + fontSize + 'pt;">'+description+'</div>'+
 			'		<div style="float: right;">'+
 			'			<div class="barcode">'+
 			'				<img style="width:100%; height: 100%;" src="{{ static_url("img/barcode.png") }}"></img>'+
@@ -225,14 +213,31 @@
 	  }
 	}
 	
-
+/*
 	//setup global event handlers
 	$('.my-coupons').click(function(e){
 		if(localStorage.length > 0){
 			toggleMenu();  	  
 		}
 	});
-	
+*/
+
+	$('#myCouponsBtn').click(function(e) {
+		if (localStorage.length > 0) {
+			$('#myCouponsBtn').addClass("active");
+			$('#availableCouponsBtn').removeClass("active");
+			$('#collectedCouponsArea').css("display", "block");
+			$('#availableCouponsArea').css("display", "none");
+		}
+	});
+
+	$('#availableCouponsBtn').click(function(e) {
+		$('#myCouponsBtn').removeClass("active");
+		$('#availableCouponsBtn').addClass("active");
+		$('#collectedCouponsArea').css("display", "none");
+		$('#availableCouponsArea').css("display", "block");
+	});
+
 	var activeCouponClickHandler = $('#coupons').delegate('.coupon-img', 'click', function(e){
 			
 			//todo:update local storage
