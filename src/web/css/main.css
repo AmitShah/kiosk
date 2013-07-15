@@ -86,16 +86,6 @@ body {
 	right:5px;
 	width:40px;
 	height:40px;
-	-webkit-transition-duration: 0.5s;
-	-moz-transition-duration: 0.5s;
-	-ms-transition-duration: 0.5s;
-	-o-transition-duration: 0.5s;
-	transition-duration: 0.5s;
-	-webkit-transition-property: -webkit-transform;
-	transition-property: transform;
-	-moz-transition-property: -moz-transform;
-	-ms-transition-property: -ms-transform;
-	-o-transition-property: -o-transform;
 }
 
 .expand-arrow.expanded {
@@ -109,18 +99,8 @@ body {
 .available-coupons {
 	position: absolute;
 	top: 180px;
-	width: 100%;
+	width: 96%;
 	z-index: 0;
-	-webkit-transition-duration: 0.5s;
-	-moz-transition-duration: 0.5s;
-	-ms-transition-duration: 0.5s;
-	-o-transition-duration: 0.5s;
-	transition-duration: 0.5s;
-	-webkit-transition-property: top;
-	transition-property: top;
-	-moz-transition-property: top;
-	-ms-transition-property: top;
-	-o-transition-property: top;
 }
 
 .available-coupons h1 {
@@ -131,19 +111,19 @@ body {
 
 .coupon-images {
 	margin: 0;
-	padding: 0;
-	width: 100%;
-}
-
-.coupon-images img {
-	text-align: center;
-	width: 95%;
+	padding:0;
+	padding-left: 3%;
+	padding-right: 3%;
+	width: 96%;
 }
 
 .coupon-img {
+	padding-bottom: 20px;
+}
+
+.coupon-images img {
+	border-radius: 20px;
 	text-align: center;
-	width: 100%;
-	position:relative;
 }
 
 .blur {
@@ -166,11 +146,6 @@ body {
 	z-index: 5;
 	bottom: 0;
 	background-color: rgb(241, 241, 241);
-	-webkit-transition-duration: 0.5s;
-	-moz-transition-duration: 0.5s;
-	-ms-transition-duration: 0.5s;
-	-o-transition-duration: 0.5s;
-	transition-duration: 0.5s;
 }
 
 .collected-coupon {

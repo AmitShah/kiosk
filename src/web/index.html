@@ -69,9 +69,7 @@
 <script type="text/javascript">
 	//Extend Modernizr
 	
-	if(window.location.hostname!== 'coupons.ca'){
-		window.location.replace('coupons.ca');
-	}
+
 	
 	var activeCoupons = {};
 	var filterEffect = 'blur';
@@ -105,7 +103,7 @@
 				
 		try{
 			//localStorage.clear();
-			var ws = new WebSocket("ws://10.0.0.1:8080/activate");
+			var ws = new WebSocket("ws://127.0.0.1:8080/activate");
 			ws.onopen = function() {
 			  $('#status').html('connected'); 	
 			  getCoupons();
