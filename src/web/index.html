@@ -7,9 +7,10 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<script type='text/javascript'>			
+		/*
 		if(window.location.hostname !== 'coupons.ca'){
 			window.location = 'http://coupons.ca';
-		}
+		}*/
 	</script>
 	<title>Promo Network</title>
 	<meta name="description" content="">
@@ -27,7 +28,7 @@
 <body>
 	<div class="header-outer">
 		<div class="header-background">
-			<img id="headerImg"  style="width: 100%" src="{{ static_url("img/the-bay.jpg") }}"></img>
+			<img id="headerImg"  style="width: 100%" src="{{ static_url("img/shoppers-drug-mart-global.jpg") }}"></img>
 		</div>
 	</div>
 	<div class="status" id="status">
@@ -226,11 +227,11 @@
 		if(localStorage.getItem(key) === null){
 			str = '<div class="checked hide"><img src="{{static_url("img/check.png")}}" /></div>'
 		  	str += '<img class="base64-coupon" src="data:image/jpeg;base64,'+data[key].data+'" style="width:' + width + '"/>';
-		  	str += '<div class="coupon-text" style="font-size:' + fontSize + 'pt;">' + text + '</div>';
+		  	str += '<!--<div class="coupon-text" style="font-size:' + fontSize + 'pt;">' + text + '</div>-->';
 		}else{
 			str = '<div class="checked"><img src="{{static_url("img/check.png")}}" /></div>'
 			str += '<img class="base64-coupon '+filterEffect+'" src="data:image/jpeg;base64,'+data[key].data+'" style="width:'+width+'" />';
-			str += '<div class="coupon-text ' + filterEffect + '" style="font-size:' + fontSize + 'pt;">' + text + '</div>';
+			str += '<!--<div class="coupon-text ' + filterEffect + '" style="font-size:' + fontSize + 'pt;">' + text + '</div>-->';
 		}  
 		div.append(str); 
 		delete data[key]['data'];  
