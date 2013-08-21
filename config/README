@@ -1,0 +1,9 @@
+place the retail.sh file in /etc/init.d/ directory
+
+run this on startup by attaching to update-rc.d
+this script requries nginx,dnsmasq to startup before, so ensure
+you override the nginx.config file in /etc/nginx/nginx.conf
+
+sudo update-rc.d retail.sh start 2 3 4 5
+
+
