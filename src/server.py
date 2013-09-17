@@ -7,7 +7,7 @@ Created on Jun 28, 2013
 import tornado
 from tornado import web,httpserver
 from tornado.escape import json_encode
-import os
+import os, datetime
 
 KIOSK_ID = 'aisle45'
 
@@ -16,16 +16,26 @@ class KioskHandler(web.RequestHandler):
         return self.write(json_encode(KIOSK_ID))
 
 class CouponHandler(web.RequestHandler):
-    coupon_path = os.path.join(os.path.dirname(__file__),'web/coupon')
+    coupon_path = os.path.join(os.path.dirname(__file__),'static/coupon')
     def get(self):
-        coupons = [f for f in os.listdir(MainHandler.coupon_path) \
-                 if os.path.isfile(os.path.join(MainHandler.coupon_path,f))]
-        self.write(json_encode(coupons));
+        coupons = [f for f in os.listdir(CouponHandler.coupon_path) \
+                 if os.path.isfile(os.path.join(CouponHandler.coupon_path,f))]        
+        result = [dict({'barcode': '1234567890128','image':c }) for c in coupons]                
+        self.write(json_encode(result));
 
 class MainHandler(web.RequestHandler):
     def get(self):
         self.render('index.html')
+   
+class ManifestHandler(web.RequestHandler):
+    time=datetime.datetime.now()
     
+    def initialize(self):
+        pass
+ 
+    def get(self):
+        self.set_header("Content-Type", "text/cache-manifest") 
+        self.render("manifest", time=ManifestHandler.time)        
         
 def main():
     settings = dict(
@@ -39,11 +49,12 @@ def main():
 
     http_server = tornado.httpserver.HTTPServer(tornado.web.Application([
         (r"/kiosk", KioskHandler),
-        (r"/coupons", CouponHandler),
+        (r"/coupon", CouponHandler),
         (r"/*",MainHandler ),
+        (r'/cache.manifest', ManifestHandler),
 	    (r"/(apple-touch-icon\.png)", tornado.web.StaticFileHandler,
     dict(path=settings['static_path'])),], **settings))
-    sockets = tornado.netutil.bind_sockets(8080)    
+    sockets = tornado.netutil.bind_sockets(9999)    
     http_server.add_sockets(sockets)
     tornado.ioloop.IOLoop.instance().start()
         

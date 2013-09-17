@@ -1,0 +1,17 @@
+CACHE MANIFEST
+{{static_url('css/bootstrap.css')}}
+/static/fonts/glyphicons-halflings-regular.ttf
+/static/fonts/OpenSans-Regular.ttf
+/static/fonts/Playball-Regular.ttf
+{{static_url('js/jquery-1.9.1.min.js')}}
+{{static_url('js/bootstrap.min.js')}}
+{{static_url('js/main.js')}}
+{{static_url('js/jquery-barcode.min.js')}}
+{{static_url('js/persist.min.js')}}
+{{static_url('js/handlebars.js')}}
+
+NETWORK:
+*
+
+#{{time}}
+

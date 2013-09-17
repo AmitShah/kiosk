@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <!-- manifest="/cache.manifest" -->
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -63,20 +63,34 @@
 	  }
 	  
 	  .lead{
+	  	font-family: 'Open Sans';
 	  	color:white;
 	  }
 	  
-	  .circle{
-	  	background-color:#EA445A;
-	  	 -webkit-border-radius: 999px;
-	    -moz-border-radius: 999px;
-	    border-radius: 999px;
-	    behavior: url(PIE.htc);
-	    height:100px;
-	    width:100px;
+	  .white{
+	  	color:white;
 	  }
 	  
-	 	  
+	  .blue {
+	  	border-color:#2DA9DC;
+	  	background-color:#2DA9DC;
+	  	color:#2DA9DC;
+	  }
+	  
+	  .grey{
+	  	color:#777777;
+	  }
+	 
+	  .red{
+	  	background-color:#EA445A;
+	  	color:#EA445A;
+	  }
+	  
+	  .row .margin {
+	  	margin-top:10px;
+	  	margin-bot:10px;
+	  }
+	  
 		
 	  section {
 	    min-height:500px;
@@ -143,9 +157,9 @@
 							
 			<div class="row" style="margin-top:20px">
 				<div class="text-center col-sm-12 col-lg-12">
-					<h1 class="title">Coupon Network</h1>
+					<h1 class="title">Best-Mart</h1>
 					<p class="lead">
-						promotions and offers at your fingertips
+						rewards and offers at your fingertips
 					</p>
 					<!--button type="button" class="btn btn-primary btn-large" style="color:#2DA9DC;background-color:white;border-color:white;">learn more</button-->
 				</div>
@@ -159,96 +173,67 @@
 </section>
 
 
-<section  style="background-color:#353E47" class="demo">
-	<nav id="nav" class="navbar navbar-default navbar-flat" role="navigation" style="margin-bottom:0px;">
-	  <!-- Brand and toggle get grouped for better mobile display -->
-	  <div class="navbar-header">
-	    <p class="navbar-toggle pull-right" >
-	    	<a id="mycouponsbtn" href="#mycoupons" data-toggle="collapse" data-target="#mycoupons" class="navbar-link">
-	    		<span class="glyphicon glyphicon-shopping-cart"></span>my coupons
-	    	</a>
-	   	</p>
-	    <a id="status" class="navbar-brand" href="#"><span class="glyphicon"></span></a>
-	  </div>
-	
-	  <!-- Collect the nav links, forms, and other content for toggling -->
-	  <div class="collapse navbar-collapse navbar-ex1-collapse" >
-	    <p class="navbar-text pull-right" >
-	    	<a id="mycouponsbtn" href="#mycoupons" data-toggle="collapse" data-target="#mycoupons" class="navbar-link">
-	    		<span class="glyphicon glyphicon-shopping-cart"></span>my coupons
-	    	</a>
-	   	</p>
-	   </div>
-	</nav>
+	<section  style="background-color:#353E47" class="demo">
+		<nav id="nav" class="navbar navbar-default navbar-flat" role="navigation" style="margin-bottom:0px;">
+		  <!-- Brand and toggle get grouped for better mobile display -->
+		  <div class="navbar-header">
+		    <btn class="navbar-toggle pull-right" data-toggle="collapse" data-target="#mycouponsPanel" >
+		    	<span class="glyphicon glyphicon-shopping-cart"></span>my coupons	    	
+		   	</btn>
+		    <a id="status" class="navbar-brand" href="#"><span class="glyphicon"></span></a>
+		  </div>
+		
+		  <!-- Collect the nav links, forms, and other content for toggling -->
+		  <div class="collapse navbar-collapse navbar-ex1-collapse" >
+		    <p class="navbar-text pull-right" >
+		    	<a id="mycouponsbtn" href="#mycouponsPanel" data-toggle="collapse" data-target="#mycouponsPanel" class="navbar-link">
+		    		<span class="glyphicon glyphicon-shopping-cart"></span>my coupons
+		    	</a>
+		   	</p>
+		   </div>
+		</nav>
 
 
 	  <div class="row featurette text-center">
-	  		<div id="mycoupons" class="panel panel-collapse collapse">
-			  <div class="panel-body">
-			    Basic panel example
+	  		<div id="mycouponsPanel" class="col-sm-12 col-lg-12 col-md-12 panel panel-collapse collapse" style="margin-top:0px;margin-bottom:0px;">
+			  <div class="panel-body">			    
+			    <ul id="mycoupons" class="list-group">
+				  <li class="list-group-item" id="barcodehere2">
+				  	<div class="row margin">
+				    	<p>your cart is empty</p>
+				    </div>
+				  </li>
+				</ul>							    
 			  </div>
 			</div>
+		
 	  </div>
-	  <div class="row featurette text-center" style="margin-bottom:50px;">
-			<div class="cirlce">
-			  			  	        	
-	        </div>
-	  </div>
-	  	
-    
-</section>
+	  <div class="row featurette text-center" >
+			<div class="container">
+				<div id="currentCoupons" class="well">
+					<!--div class="row margin">
+						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+							<img src="/static/coupon/shoppers2.jpg" class="img-thumbnail" style="width:100%;"/>
+						</div>
+				    	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+				    		<button type="button" class="btn blue add" data-barcode="1234567890128"><span class="glyphicon  glyphicon-plus white" ></span></button> 				    		
+				    	</div>
+			    	</div>
+					
+					<div class="row margin">
+						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+							<img src="/static/coupon/shoppers1.jpg" class="img-thumbnail" style="width:100%;"/>
+						</div>
+				    	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+				    		<button type="button" class="btn"><span class="glyphicon glyphicon-ok white"></span></button> 
+				    	</div>
+			    	</div-->
+				</div>
+			</div>
+	  	</div>	
+	</section>
 
 
-
-
-
-<!--  SECTION-1 -->  
-<section id="Section-1">
-	<div class="container">
-	    <!-- Example row of columns -->
-	    <!--div class="bg"></div-->
-	    <div class="pattern"></div>
-				
-	    <div class="row">
-			<div class="page-header color-white col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<h1>Learn more about our platform</h1>
-			</div> 
-		</div>
-		
-		<div class="row">
-			<div class="color-white  col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="row">
-					<div class="col-sm-12 col-lg-12">
-						<p class="lead">real time sensors allow for reactive business decisions</p>
-					</div>
-				</div><!-- /INNER ROW-FLUID-->
-			</div><!-- SPAN6-->
-		</div>	
-		
-		<div class="row">
-			<div class="col-sm-6 col-lg-6">
-				<div class="row">
-					<div class="col-sm-12 col-lg-12">
-						<a class="btn btn-start btn-default" style="background-color:#EA445A;border-color:#EA445A;" href="#Section-1">DOWNLOAD APP</a>
-					</div>
-				</div><!-- /INNER ROW-FLUID-->
-			</div><!-- SPAN6-->
-		</div>
-		
-		
-	</div><!-- / CONTAINER-->
-</section>
-
-<!-- / SECTION-1 -->
-<section style="background-color:#EA445A">
-	<div class="container">
-		<div class="row">
-			<h1>Real time reactive systems</h1>			
-		</div>
-	</div>
-</section>
-      
-<!-- FOOTER -->
     <footer id="foot-sec">
 		<div class="container ">
 				<div class="row">
@@ -258,37 +243,60 @@
 				</div>	
 		</div><!-- / CONTAINER-->
     </footer>
-<!-- / FOOTER -->
    
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>    	
-	<script src="{{static_url('js/bootstrap.js')}}"></script>
-	<script src="{{static_url('js/jquery.parallax-1.1.3.js')}}" type="text/javascript" ></script>
+	<script src="{{static_url('js/jquery-1.9.1.min.js')}}"></script>
+	<script src="{{static_url('js/bootstrap.min.js')}}"></script>
+	<script src="{{static_url('js/persist.min.js')}}"></script>
+	<script src="{{static_url('js/jquery-barcode.min.js')}}"></script>
+	<script src="{{static_url('js/handlebars.js')}}" type="text/javascript" ></script>
 	<script src="{{static_url('js/main.js')}}" type="text/javascript" ></script>
 	
-<script>
-	$(document).ready(function(){
-		
-		//.parallax(xPosition, speedFactor, outerHeight) options:
-		//xPosition - Horizontal position of the element
-		//inertia - speed to move relative to vertical scroll. Example: 0.1 is one tenth the speed of scrolling, 2 is twice the speed of scrolling
-		//outerHeight (true/false) - Whether or not jQuery should use it's outerHeight option to determine when a section is in the viewport
-		//$('#Section-0').parallax("10%", 0.6,true, -80);
-		$('#Section-1').parallax("0%", 0.1);
-		$('#Section-2').parallax("50%", 0.1);		
-		$('.bg').parallax("50%", 0.3);
-		
-		$('.navbar-link').click(function(e){			
-			e.preventDefault();
-		});
+	<script id="mycoupon" type="text/x-handlebars">
+		<li class="list-group-item" id="mycoupon-{{!barcode}}">
+			<div class="row margin">
+				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><div class="barcode"></div></div>
+				<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+					<button type="button" class="btn red remove" data-remove="{{!barcode}}"><span class="glyphicon glyphicon-remove white"></span></button>		    		
+				</div>
+			</div>
+		</li>
+	</script>
+	
+	<script id="coupon" type="text/x-handlebars">
+		<div class="row margin" id="coupon-{{!barcode}}">
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+				<img src="/static/coupon/{{!image}}" class="img-thumbnail" style="width:100%;"/>
+			</div>
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 ">
+				<button type="button" class="btn {{!color}} add" data-barcode="{{!barcode}}">
+					<span class="glyphicon {{!icon}} white" ></span></button> 				    		
+			</div>
+		</div>
+	</script>
 
-				
-	})
-</script>
+	<script>
+		$(document).ready(function(){
+			
+			//.parallax(xPosition, speedFactor, outerHeight) options:
+			//xPosition - Horizontal position of the element
+			//inertia - speed to move relative to vertical scroll. Example: 0.1 is one tenth the speed of scrolling, 2 is twice the speed of scrolling
+			//outerHeight (true/false) - Whether or not jQuery should use it's outerHeight option to determine when a section is in the viewport
+			//$('#Section-0').parallax("10%", 0.6,true, -80);
+			//$('#Section-1').parallax("0%", 0.1);
+			//$('#Section-2').parallax("50%", 0.1);		
+			//$('.bg').parallax("50%", 0.3);
+			
+			$('.navbar-link').click(function(e){			
+				e.preventDefault();
+			});
+					
+		})
+	</script>
 
 
 
