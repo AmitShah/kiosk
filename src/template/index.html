@@ -86,6 +86,25 @@
 	  	color:#EA445A;
 	  }
 	  
+	  .coupon-count {
+		  display: inline-block;
+		  min-width: 12px;
+		  padding: 3px 7px;
+		  font-size: 14px;
+		  line-height: 1;
+		  color: #ffffff;
+		  text-align: center;
+		  white-space: nowrap;
+		  vertical-align: baseline;
+		  background-color: #777777;
+		  border-radius: 12px;
+		}
+
+		.badge:empty {
+		  display: none;
+		}
+		
+
 	  .row .margin {
 	  	margin-top:10px;
 	  	margin-bot:10px;
@@ -144,9 +163,9 @@
 		<nav id="nav" class="navbar navbar-default navbar-flat" role="navigation" style="margin-bottom:0px;">
 		  <!-- Brand and toggle get grouped for better mobile display -->
 		  <div class="navbar-header">
-		    <btn class="navbar-toggle pull-right" data-toggle="collapse" data-target="#mycouponsPanel" >
-		    	<span class="glyphicon glyphicon-shopping-cart"></span>my coupons	    	
-		   	</btn>
+		    <button class="navbar-toggle pull-right" data-toggle="collapse" data-target="#mycouponsPanel" >
+		    	<span class="glyphicon glyphicon-shopping-cart"></span>my coupons <span class="coupon-count" id="couponCount"></span>   	
+		   	</button>
 		    <a id="status" class="navbar-brand" href="#"><span class="glyphicon"></span></a>
 		  </div>
 		

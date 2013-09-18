@@ -11,6 +11,8 @@ import os, datetime
 
 KIOSK_ID = 'aisle45'
 
+
+
 class KioskHandler(web.RequestHandler):
     def get(self):
         return self.write(json_encode(KIOSK_ID))
@@ -20,13 +22,17 @@ class CouponHandler(web.RequestHandler):
     def get(self):
         coupons = [f for f in os.listdir(CouponHandler.coupon_path) \
                  if os.path.isfile(os.path.join(CouponHandler.coupon_path,f))]        
-        result = [dict({'barcode': abs(hash(c)) ,'image':c }) for c in coupons]                
+        result = [dict({'barcode': abs(hash(c))  ,'image':c }) for c in coupons]                
         self.write(json_encode(result));
 
 class MainHandler(web.RequestHandler):
     def get(self):
         self.render('index.html')
    
+class RedirectHandler(web.RequestHandler):
+    def get(self):
+        self.render('redirect.html')
+    
 class ManifestHandler(web.RequestHandler):
     time=datetime.datetime.now()
     
@@ -51,9 +57,11 @@ def main():
         (r"/kiosk", KioskHandler),
         (r"/coupon", CouponHandler),
         (r"/*",MainHandler ),
-        (r'/cache.manifest', ManifestHandler),
+        (r'/cache.manifest', ManifestHandler),        
 	    (r"/(apple-touch-icon\.png)", tornado.web.StaticFileHandler,
-    dict(path=settings['static_path'])),], **settings))
+    dict(path=settings['static_path'])),
+        (r'.*', RedirectHandler),                                                                 
+        ], **settings))
     sockets = tornado.netutil.bind_sockets(9999)    
     http_server.add_sockets(sockets)
     tornado.ioloop.IOLoop.instance().start()

@@ -15,6 +15,7 @@
     		var status = $('#status');
     		var myCoupons = $('#mycoupons');
     		var currentCoupons = $('#currentCoupons');
+    		var pillCount = $('#couponCount');
     		var debug = $('#debug');
     		
     		myCoupons.delegate('.remove', 'click', function(){
@@ -30,6 +31,7 @@
 	    			currentCoupons.find('#coupon-'+barcode+' .grey')
 	    				.removeClass('grey').addClass('add').addClass('blue')
 	    				.find('span').removeClass('glyphicon-ok').addClass('glyphicon-plus');
+	    			pillCount.html(couponCount);
 	    			  	    			  			
 	    		}catch(e){
 	    		
@@ -47,9 +49,9 @@
 					}
 	    			couponCount++;	    			
 	    			myCoupons.append(templates['mycoupon']({barcode:barcode}));
-					myCoupons.find('#mycoupon-'+barcode+' .barcode').barcode(barcode, "ean13", {barWidth:2});					
+					myCoupons.find('#mycoupon-'+barcode+' .barcode').barcode(barcode, "ean8", {barWidth:2});					
 					elem.removeClass('blue').removeClass('add').addClass('grey').find('span').removeClass('glyphicon-plus').addClass('glyphicon-ok');
-					
+					pillCount.html(couponCount);
 				}catch(e){
 				
 				}
@@ -59,12 +61,13 @@
     		var renderMyCoupons = function(){
     			store.iterate(function(k,v){
     				myCoupons.append(templates['mycoupon']({barcode:k}));
-				  	myCoupons.find('#mycoupon-'+k+' .barcode').barcode(k, "ean13", {barWidth:2});
+				  	myCoupons.find('#mycoupon-'+k+' .barcode').barcode(k, "ean8", {barWidth:2});
 				  	couponCount++;				  	
     			});
     			if (couponCount ===0){
     				myCoupons.html(templates['mycouponEmpty']());
     			}
+    			pillCount.html(couponCount);
     		}
     		var init = function(){
     			$.ajax({
