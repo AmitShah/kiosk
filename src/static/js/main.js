@@ -1,4 +1,8 @@
     	$(function(){
+    		
+			$('.navbar-link').click(function(e){			
+				e.preventDefault();
+			})
     		//setup datastore
     		var store = new Persist.Store('mycoupons');
     		var couponCount= 0;
@@ -63,10 +67,7 @@
     			}
     		}
     		var init = function(){
-    			
-    			
-    		
-	    		$.ajax({
+    			$.ajax({
 				  url: "/kiosk",		
 				  dataType: "json",
 				  success: function(kiosk){
