@@ -1,6 +1,7 @@
     	$(function(){
     		//setup datastore
     		var store = new Persist.Store('mycoupons');
+    		var couponCount= 0;
     		var templates = {};
     		$('[type="text/x-handlebars"]').each(function(i,e){
     			var j = $(e);
@@ -13,22 +14,41 @@
     		var debug = $('#debug');
     		
     		myCoupons.delegate('.remove', 'click', function(){
-    			var elem = $(this);
-    			var barcode = elem.data('remove')+'';
-    			store.remove(barcode);
-    			$('#mycoupon-'+barcode).remove();
-    			
-    			//TODO:search coupons, revert button
+    			try{
+	    			var elem = $(this);
+	    			var barcode = elem.data('remove')+'';
+	    			store.remove(barcode);
+	    			$('#mycoupon-'+barcode).remove();
+	    			if(couponCount === 1){
+	    				myCoupons.html(templates['mycouponEmpty']());
+	    			}
+	    			couponCount--;	
+	    			currentCoupons.find('#coupon-'+barcode+' .grey')
+	    				.removeClass('grey').addClass('add').addClass('blue')
+	    				.find('span').removeClass('glyphicon-ok').addClass('glyphicon-plus');
+	    			  	    			  			
+	    		}catch(e){
+	    		
+	    		}	
     			
     		});
     		
     		currentCoupons.delegate('.add', 'click', function(){
-    			var elem = $(this);    			
-    			var barcode = elem.data('barcode')+'';    			
-    			store.set(barcode,1);
-    			myCoupons.append(templates['mycoupon']({barcode:barcode}));
-				myCoupons.find('#mycoupon-'+barcode+' .barcode').barcode(barcode, "ean13", {barWidth:2});
+    			try{
+	    			var elem = $(this);    			
+	    			var barcode = elem.data('barcode')+'';    			
+	    			store.set(barcode,1);
+	    			if(couponCount === 0){
+						myCoupons.empty();//remove empty text	
+					}
+	    			couponCount++;	    			
+	    			myCoupons.append(templates['mycoupon']({barcode:barcode}));
+					myCoupons.find('#mycoupon-'+barcode+' .barcode').barcode(barcode, "ean13", {barWidth:2});					
+					elem.removeClass('blue').removeClass('add').addClass('grey').find('span').removeClass('glyphicon-plus').addClass('glyphicon-ok');
+					
+				}catch(e){
 				
+				}
 				//TODO: change button 
 				
     		});
@@ -36,8 +56,11 @@
     			store.iterate(function(k,v){
     				myCoupons.append(templates['mycoupon']({barcode:k}));
 				  	myCoupons.find('#mycoupon-'+k+' .barcode').barcode(k, "ean13", {barWidth:2});
-				  	
+				  	couponCount++;				  	
     			});
+    			if (couponCount ===0){
+    				myCoupons.html(templates['mycouponEmpty']());
+    			}
     		}
     		var init = function(){
     			

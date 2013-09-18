@@ -20,7 +20,7 @@ class CouponHandler(web.RequestHandler):
     def get(self):
         coupons = [f for f in os.listdir(CouponHandler.coupon_path) \
                  if os.path.isfile(os.path.join(CouponHandler.coupon_path,f))]        
-        result = [dict({'barcode': '1234567890128','image':c }) for c in coupons]                
+        result = [dict({'barcode': abs(hash(c)) ,'image':c }) for c in coupons]                
         self.write(json_encode(result));
 
 class MainHandler(web.RequestHandler):
