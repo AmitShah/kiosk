@@ -62,7 +62,7 @@ def main():
     dict(path=settings['static_path'])),
         (r'.*', RedirectHandler),                                                                 
         ], **settings))
-    sockets = tornado.netutil.bind_sockets(9999)    
+    sockets = tornado.netutil.bind_sockets(8080)    
     http_server.add_sockets(sockets)
     tornado.ioloop.IOLoop.instance().start()
         
