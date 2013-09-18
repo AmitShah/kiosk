@@ -125,5 +125,10 @@
 			}
 			
 			renderMyCoupons();
-			init();
+			if(navigator.onLine){
+				init();
+			}
+			window.addEventListener("online", function(e) {
+			  init()
+			}, false);
 		})
