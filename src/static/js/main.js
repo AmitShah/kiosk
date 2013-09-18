@@ -73,6 +73,7 @@
     			$.ajax({
 				  url: "/kiosk",		
 				  dataType: "json",
+				  cache:false,
 				  success: function(kiosk){
 				  	if(currentKiosk!== kiosk){
 				  		status.html(kiosk);
@@ -94,7 +95,8 @@
 			var getCoupons = function(){			
 			   	$.ajax({
 				  url: "/coupon",
-				  dataType: "json",		
+				  dataType: "json",	
+				  cache:false,	
 				  success: function(coupons){
 				    if(coupons){
 				    	currentCoupons.empty();
