@@ -9,7 +9,7 @@ from tornado import web,httpserver
 from tornado.escape import json_encode
 import os, datetime
 
-KIOSK_ID = 'aisle45'
+KIOSK_ID = 'aisle #1'
 
 
 

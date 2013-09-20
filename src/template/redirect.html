@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en" manifest="/cache.manifest">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Sensor Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+<link href="{{static_url('css/bootstrap.css')}}" rel="stylesheet">
+<style type="text/css">
+
+		@media screen {
+		@font-face {
+		  font-family: 'Playball';
+		  font-style: normal;
+		  font-weight: normal;
+		  src: local('Play ball'), url('/static/fonts/Playball-Regular.ttf') format('truetype');
+		}		
+		}
+		
+		@media screen {
+		@font-face {
+		  font-family: 'Open Sans';
+		  font-style: normal;
+		  font-weight: normal;
+		  src: local('Open Sans'), url('/static/fonts/OpenSans-Regular.ttf') format('truetype');
+		}
+		}
+      body {
+        padding-top: 0px;
+        padding-bottom: 0px;
+		font-family: 'Open Sans', sans-serif;
+		
+      }
+	  
+	  .container{
+	  	margin-top:50px;
+	  }
+	  
+	  h1{
+	  	font-family: 'Open Sans', sans-serif;
+	  	font-size:92px;
+	 	color:#2DA9DC;
+	  }
+
+	  h2{
+	  	font-family: 'Open Sans', sans-serif;
+	  	font-size:50px;
+	 	color:#2DA9DC;
+	  }
+	  
+	  h2.grey{
+	  	color:#353E47;
+	  }
+	  
+	  .title {
+	  	font-family: 'Playball', sans-serif;
+	  	font-size:92px;
+	 	color:#2DA9DC;
+	  }
+	  .blue {
+	  	background: #2DA9DC;
+	  	border-color:#2DA9DC;
+	  }
+	  .red{
+	  	background-color:#EA445A;
+	  	color:#EA445A;
+	  }
+	  .orange{
+	  	background-color:#F5734A;
+	  	color:#F5734A;
+	  }
+	  
+	  .btn-primary:hover,
+	  .btn-primary:focus,
+	  .btn-primary:active,
+	  .btn-primary.active,
+	  .open .dropdown-toggle.btn-primary {
+		background-color:#F5734A;
+	  	color:#F5734A;
+		border-color:#F5734A;
+		}
+	
+    </style>
+
+
+</head>
+<!-- /HEAD-->
+<body data-spy="scroll">
+ 
+   
+	<section id="Section-0">
+			<div class="container">								
+				<div class="row" style="margin-top:20px;">
+					<div class="text-center col-sm-12 col-lg-12">
+						<h1 class="title">Best-Mart</h1>						
+					</div>
+				</div>
+				<div class="row">
+					<div class="text-center col-sm-12 col-lg-12">
+						<button id="go" class="btn btn-primary btn-large blue" style="font-size:30px;color:white;">
+							<span class="glyphicon glyphicon-play"></span> start saving
+						</button>	
+					</div>
+				</div>			
+			</div>  
+	</section>
+
+
+	<script type="text/javascript">
+			document.getElementById('go').onclick=function(){
+				window.location = 'http://coupon.in';
+			}
+	
+	</script>	
+
+</body>
+</html>s

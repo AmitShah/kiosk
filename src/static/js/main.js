@@ -70,8 +70,12 @@
     			pillCount.html(couponCount);
     		}
     		var init = function(){
+    			status.html('<span class="glyphicon glyphicon-repeat" style="color:#777777;"></span> connecting...');
+				  	
     			$.ajax({
-				  url: "/kiosk",		
+				  url: "/kiosk",
+				  timeout:2000,
+				  //url: "/kiosk?random="+Math.random(),		
 				  dataType: "json",
 				  cache:false,
 				  success: function(kiosk){
@@ -80,14 +84,13 @@
 				  		currentKiosk = kiosk;
 				 		getCoupons();
 				 	}
-				 	setTimeout(init, 15000); 
+				 	
 				  },
 				  error : function(e){
 				  	debug.html('error: ' + e.message);
-				  	status.html('<div class="glyphicon glyphicon-refresh" style="color:#777777;"></div> waiting for kiosk');
-				  	currentCoupons.html('<h2 style="color:#777777;">none</h2>');
+				  	status.html('<span class="glyphicon glyphicon-refresh" style="color:#777777;"></span> waiting for kiosk');
 				  	currentKiosk = null;
-				  	setTimeout(init, 15000);
+				  	
 				  }	  
 				});
 			};
@@ -95,6 +98,7 @@
 			var getCoupons = function(){			
 			   	$.ajax({
 				  url: "/coupon",
+				  //url: "/coupon?random="+Math.random(),
 				  dataType: "json",	
 				  cache:false,	
 				  success: function(coupons){
@@ -119,7 +123,7 @@
 				  	}
 				  },
 				  error : function(e){
-				  	status.html('error retreiving coupons');
+				  	status.html('error');
 				  }	  
 				});
 			}
@@ -127,8 +131,14 @@
 			renderMyCoupons();
 			if(navigator.onLine){
 				init();
+			}else{
+				status.html('<span class="glyphicon glyphicon-refresh" style="color:#777777;"></span> waiting for kiosk');				  	
 			}
 			window.addEventListener("online", function(e) {
 			  init()
+			}, false);
+			
+			window.addEventListener("offline", function(e) {
+			  status.html('<span class="glyphicon glyphicon-refresh" style="color:#777777;"></span> waiting for kiosk');				  	
 			}, false);
 		})

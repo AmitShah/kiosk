@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html lang="en" manifest="/cache.manifest">
 	<head>
-	<script type="text/javascript">	
+	<!--script type="text/javascript">	
 		if(window.location.hostname !== "coupon.in"){
 			window.location = "http://coupon.in";
 		}
-	</script>
+	</script-->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>Best-Mart</title>
@@ -135,6 +135,7 @@
 	  #Section-0 {
 			background: #2DA9DC;
 	  }	  
+	   
     </style>
 
 
@@ -195,21 +196,14 @@
 	  </div>
 	  <div class="row featurette text-center" >
 			<div class="container">
-				<div id="currentCoupons" class="well">					
+				<div id="currentCoupons" class="well">	
+					<div class="row margin text-center" id="coupon-{{!barcode}}">
+						<p>find kiosks and click refresh for great offers and promotions</p>
+					</div>				
 				</div>
 			</div>
 	  	</div>	
 	</section>
-
-    <footer id="foot-sec">
-		<div class="row">
-			<div class="page-header text-center color-white col-sm-12 col-lg-12">
-				<span>powered by AATSI </span>
-			</div> 
-		</div>
-    </footer>
-   
-
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
