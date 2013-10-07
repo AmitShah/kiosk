@@ -31,7 +31,7 @@ class MainHandler(web.RequestHandler):
    
 class RedirectHandler(web.RequestHandler):
     def get(self):
-        self.render('redirect.html')
+        self.render('success.html')
     
 class ManifestHandler(web.RequestHandler):
     time=datetime.datetime.now()
@@ -56,7 +56,7 @@ def main():
     http_server = tornado.httpserver.HTTPServer(tornado.web.Application([
         (r"/kiosk", KioskHandler),
         (r"/coupon", CouponHandler),
-        (r"/*",MainHandler ),
+        (r"/",MainHandler ),
         (r'/cache.manifest', ManifestHandler),        
 	    (r"/(apple-touch-icon\.png)", tornado.web.StaticFileHandler,
     dict(path=settings['static_path'])),
