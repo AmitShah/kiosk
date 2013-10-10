@@ -73,9 +73,9 @@
     			status.html('<span class="glyphicon glyphicon-repeat" style="color:#777777;"></span> connecting...');
 				  	
     			$.ajax({
-				  url: "/kiosk",
-				  timeout:2000,
-				  //url: "/kiosk?random="+Math.random(),		
+				  //url: "/kiosk",
+				  timeout:30000,
+				  url: "/kiosk?random="+Math.random(),		
 				  dataType: "json",
 				  cache:false,
 				  success: function(kiosk){
